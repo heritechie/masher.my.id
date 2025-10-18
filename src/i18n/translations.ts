@@ -138,7 +138,7 @@ export const translations: Record<Locale, Translation> = {
 			description: `Situs pribadi MasHer. Software craftsman dengan ${TOTAL_YEARS_LABEL_ID} jam terbang membangun produk digital yang hangat, aman, dan mudah dipakai untuk menggerakkan dampak sosial positif.`,
 		},
 		layout: {
-			brand: 'MasHer',
+			brand: 'Masher',
 			tagline: 'Software Craftsman',
 			languageSwitcherLabel: 'Ganti bahasa',
 			languageNames: {
@@ -1120,7 +1120,7 @@ export const translations: Record<Locale, Translation> = {
 			description: `Personal site of MasHer. A software craftsman with ${TOTAL_YEARS_LABEL_EN} of building trusted digital products, lately focusing on data-aware security, purposeful automation, and making tech useful for social impact.`,
 		},
 		layout: {
-			brand: 'MasHer',
+			brand: 'Masher',
 			languageSwitcherLabel: 'Change language',
 			languageNames: {
 				id: 'Bahasa Indonesia',
