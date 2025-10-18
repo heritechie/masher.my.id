@@ -1,5 +1,13 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
+import tailwind from '@tailwindcss/vite';
 
-// https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+	site: 'https://heritechie.my.id',
+	i18n: {
+		defaultLocale: 'id',
+		locales: ['id', 'en'],
+	},
+	vite: {
+		plugins: [tailwind()],
+	},
+});

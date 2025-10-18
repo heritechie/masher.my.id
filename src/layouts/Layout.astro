@@ -1,22 +1,396 @@
+---
+type LanguageLink = {
+	lang: string;
+	label: string;
+	href: string;
+	active?: boolean;
+};
+
+const {
+	title = 'MasHer — Software Craftsman',
+	description = 'Situs pribadi MasHer. Software craftsman yang senang meracik solusi digital aman, mudah diakses, dan menyenangkan untuk siapa saja.',
+	brand = 'MasHer',
+	tagline = 'Software Craftsman',
+	locale = 'id',
+	languageLinks = [] as LanguageLink[],
+	switcherLabel = 'Change language',
+	skipLinkLabel = 'Skip to content',
+	themeToggleLabel = 'Toggle theme',
+} = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@500&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
+		<script is:inline>
+			(() => {
+				const root = document.documentElement;
+				let stored = null;
+				try {
+					stored = localStorage.getItem('theme');
+				} catch {}
+				const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const initial = stored ?? (prefersDark ? 'dark' : 'light');
+				root.dataset.theme = initial;
+				root.style.colorScheme = initial;
+			})();
+		</script>
 	</head>
 	<body>
-		<slot />
+		<a class="skip-link" href="#main">{skipLinkLabel}</a>
+		<div class="site-shell">
+			<header class="site-header">
+				<a class="brand" href={`/${locale}/`} aria-label={`${brand} homepage`}>
+					<span class="brand__mark">{brand}</span>
+					<span class="brand__tagline">{tagline}</span>
+				</a>
+				<div class="header-controls">
+					<nav class="language-switcher" aria-label={switcherLabel}>
+						{languageLinks.map((link) => (
+							<a
+								class={`language-switcher__link${link.active ? ' is-active' : ''}`}
+								href={link.href}
+								hreflang={link.lang}
+								data-lang-option={link.lang}
+							>
+								{link.label}
+							</a>
+						))}
+					</nav>
+					<button class="theme-toggle" type="button" data-theme-toggle aria-label={themeToggleLabel}>
+						<i class="ri-sun-line theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true"></i>
+						<i class="ri-moon-line theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true"></i>
+					</button>
+				</div>
+			</header>
+			<main id="main">
+				<slot />
+			</main>
+			<footer>
+				<p>© {new Date().getFullYear()} {brand}. All rights reserved.</p>
+			</footer>
+		</div>
+
+		<script is:inline>
+			(() => {
+				const root = document.documentElement;
+				const toggleTheme = (next) => {
+					root.dataset.theme = next;
+					root.style.colorScheme = next;
+					try {
+						localStorage.setItem('theme', next);
+					} catch {}
+					document.body.classList.add('theme-transition');
+					window.setTimeout(() => document.body.classList.remove('theme-transition'), 250);
+				};
+
+				const themeButton = document.querySelector('[data-theme-toggle]');
+				if (themeButton) {
+					themeButton.addEventListener('click', () => {
+						const current = root.dataset.theme === 'dark' ? 'dark' : 'light';
+						const next = current === 'dark' ? 'light' : 'dark';
+						toggleTheme(next);
+					});
+				}
+
+				const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+				const syncWithSystem = (event) => {
+					let stored = null;
+					try {
+						stored = localStorage.getItem('theme');
+					} catch {}
+					if (stored) return;
+					toggleTheme(event.matches ? 'dark' : 'light');
+				};
+				if (typeof mediaQuery.addEventListener === 'function') {
+					mediaQuery.addEventListener('change', syncWithSystem);
+				} else if (typeof mediaQuery.addListener === 'function') {
+					mediaQuery.addListener(syncWithSystem);
+				}
+			})();
+
+			const links = document.querySelectorAll('[data-lang-option]');
+			links.forEach((link) => {
+				link.addEventListener('click', () => {
+					try {
+						localStorage.setItem('preferredLocale', link.dataset.langOption || '');
+					} catch {}
+				});
+			});
+		</script>
 	</body>
 </html>
 
-<style>
-	html,
+<style is:global>
+	:root {
+		color-scheme: dark light;
+		font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+		--font-display: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+		--surface: #0b0b0c;
+		--surface-alt: rgba(16, 16, 18, 0.78);
+		--surface-card: rgba(20, 20, 22, 0.88);
+		--surface-elevated: rgba(28, 28, 30, 0.76);
+		--surface-highlight: rgba(235, 235, 235, 0.08);
+		--border: rgba(120, 120, 120, 0.18);
+		--shadow-soft: 0 24px 40px rgba(0, 0, 0, 0.45);
+		--accent: #d2d2cf;
+		--accent-soft: rgba(210, 210, 207, 0.22);
+		--accent-strong: #f5f5f4;
+		--text-main: #f5f5f5;
+		--text-muted: #9a9a9a;
+		--glass-stroke: rgba(210, 210, 207, 0.18);
+		--gradient-bg: radial-gradient(circle at top left, rgba(220, 220, 220, 0.08), transparent 45%),
+			radial-gradient(circle at bottom right, rgba(96, 96, 96, 0.18), transparent 40%), #080808;
+	}
+
+	:root[data-theme='light'] {
+		--surface: #f4f4f3;
+		--surface-alt: rgba(255, 255, 255, 0.85);
+		--surface-card: rgba(255, 255, 255, 0.94);
+		--surface-elevated: rgba(255, 255, 255, 0.9);
+		--surface-highlight: rgba(0, 0, 0, 0.06);
+		--border: rgba(58, 58, 58, 0.12);
+		--shadow-soft: 0 16px 32px rgba(0, 0, 0, 0.12);
+		--accent: #3a3a3a;
+		--accent-soft: rgba(58, 58, 58, 0.12);
+		--accent-strong: #161616;
+		--text-main: #1a1a1a;
+		--text-muted: #5c5c5c;
+		--glass-stroke: rgba(0, 0, 0, 0.08);
+		--gradient-bg: radial-gradient(circle at top left, rgba(0, 0, 0, 0.06), transparent 45%),
+			radial-gradient(circle at bottom right, rgba(96, 96, 96, 0.08), transparent 40%), #f4f4f3;
+	}
+
+	body.theme-transition,
+	body.theme-transition * {
+		transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease,
+			box-shadow 0.25s ease;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
 	body {
 		margin: 0;
-		width: 100%;
-		height: 100%;
+		min-height: 100dvh;
+		background: var(--gradient-bg);
+		color: var(--text-main);
+		line-height: 1.7;
+		transition: background 0.4s ease;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	a:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 4px;
+	}
+
+	.skip-link {
+		position: absolute;
+		top: -40px;
+		left: 16px;
+		padding: 8px 14px;
+		background: var(--accent);
+		color: var(--surface);
+		border-radius: 999px;
+		transition: top 0.2s ease;
+		font-weight: 600;
+	}
+
+	.skip-link:focus {
+		top: 16px;
+	}
+
+	.site-shell {
+		width: min(1040px, calc(100% - 48px));
+		margin: 0 auto;
+		padding: 48px 0 40px;
+		display: flex;
+		flex-direction: column;
+		min-height: 100dvh;
+		gap: 48px;
+	}
+
+	.site-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 20px;
+		padding: 16px 20px;
+		border: 1px solid var(--glass-stroke);
+		border-radius: 18px;
+		background: var(--surface-elevated);
+		backdrop-filter: blur(24px);
+		box-shadow: var(--shadow-soft);
+	}
+
+	.brand {
+		display: inline-flex;
+		flex-direction: column;
+		gap: 4px;
+		font-weight: 700;
+		letter-spacing: 0.02em;
+	}
+
+	.brand__mark {
+		font-size: 1.45rem;
+	}
+
+	.brand__tagline {
+		font-size: 0.9rem;
+		color: var(--text-muted);
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+	}
+
+	.header-controls {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.language-switcher {
+		display: inline-flex;
+		gap: 6px;
+		align-items: center;
+		padding: 4px;
+		border-radius: 999px;
+		background: var(--surface-highlight);
+	}
+
+	.language-switcher__link {
+		padding: 8px 14px;
+		border-radius: 999px;
+		border: 1px solid transparent;
+		background: transparent;
+		color: var(--text-muted);
+		font-size: 0.8rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+	}
+
+	.language-switcher__link:hover {
+		transform: translateY(-1px);
+		border-color: var(--accent-soft);
+	}
+
+	.language-switcher__link.is-active {
+		background: var(--accent);
+		color: #fff;
+		border-color: var(--accent);
+	}
+
+	.theme-toggle {
+		cursor: pointer;
+		border: 1px solid var(--glass-stroke);
+		border-radius: 999px;
+		background: var(--surface-highlight);
+		color: var(--text-muted);
+		padding: 6px 10px;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 0.9rem;
+		transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+	}
+
+	.theme-toggle:hover {
+		color: var(--text-main);
+		border-color: var(--accent);
+		transform: translateY(-1px);
+	}
+
+	.theme-toggle__icon {
+		font-size: 1.15rem;
+		position: relative;
+	}
+
+	:root[data-theme='light'] .theme-toggle__icon--sun {
+		display: none;
+	}
+
+	:root[data-theme='dark'] .theme-toggle__icon--moon {
+		display: none;
+	}
+
+	main {
+		flex: 1 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 88px;
+	}
+
+	footer {
+		flex: 0 0 auto;
+		border-top: 1px solid var(--glass-stroke);
+		padding-top: 20px;
+		font-size: 14px;
+		color: var(--text-muted);
+		text-align: center;
+	}
+
+	@media (max-width: 840px) {
+		.site-shell {
+			width: min(1040px, calc(100% - 40px));
+			padding-top: 36px;
+		}
+
+		main {
+			gap: 72px;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.site-shell {
+			width: min(1040px, calc(100% - 32px));
+			gap: 36px;
+		}
+
+		.site-header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 16px;
+			padding: 16px;
+		}
+
+		.brand {
+			align-items: flex-start;
+		}
+
+		.language-switcher {
+			flex-wrap: wrap;
+		}
+
+		.header-controls {
+			width: 100%;
+			justify-content: space-between;
+		}
+	}
+
+	@media (max-width: 420px) {
+		main {
+			gap: 60px;
+		}
 	}
 </style>

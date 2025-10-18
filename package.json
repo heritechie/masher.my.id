@@ -1,6 +1,5 @@
 {
   "name": "",
-  "type": "module",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
@@ -9,6 +8,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.14.6"
+    "@tailwindcss/vite": "^4.1.14",
+    "astro": "^5.14.6",
+    "tailwindcss": "^4.1.14"
   }
 }
