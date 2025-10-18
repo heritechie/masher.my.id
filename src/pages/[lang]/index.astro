@@ -30,10 +30,28 @@ const t = translations[locale];
 
 const languageLinks = SUPPORTED_LOCALES.map((code) => ({
 	lang: code,
-	label: translations[locale].layout.languageNames[code],
+	label: t.layout.languageNames[code],
 	href: `/${code}/`,
 	active: code === locale,
 }));
+
+const navLinks = [
+	{
+		label: t.layout.learningJourneyLabel,
+		href: `/${locale}/learning-journey/`,
+		active: false,
+	},
+	{
+		label: t.layout.knowledgeBaseLabel,
+		href: `/${locale}/knowledge-base/`,
+		active: false,
+	},
+	{
+		label: t.layout.webtoolsLabel,
+		href: `/${locale}/webtools/`,
+		active: false,
+	},
+];
 
 const contactChannels = [
 	{ key: 'email', label: t.contact.channels.email, value: 'heritechie@gmail.com', href: 'mailto:heritechie@gmail.com', icon: iconMap.mail },
@@ -57,8 +75,10 @@ const deliverables = t.deliverables.items;
 	tagline={t.layout.tagline}
 	locale={locale}
 	languageLinks={languageLinks}
+	navLinks={navLinks}
+	navLabel={t.layout.primaryNavLabel}
+	mobileMenuLabel={t.layout.mobileMenuLabel}
 	switcherLabel={t.layout.languageSwitcherLabel}
-	skipLinkLabel={t.layout.skipLinkLabel}
 	themeToggleLabel={t.layout.themeToggleLabel}
 >
 	<section class="hero">
@@ -554,6 +574,19 @@ const deliverables = t.deliverables.items;
 	}
 
 	@media (max-width: 720px) {
+		.hero {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.hero__portrait {
+			order: -1;
+		}
+
+		.hero__content {
+			order: 0;
+		}
+
 		.hero__summary {
 			padding: 26px;
 		}

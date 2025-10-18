@@ -6,6 +6,18 @@ type LanguageLink = {
 	active?: boolean;
 };
 
+type NavLink = {
+	label: string;
+	href: string;
+	active?: boolean;
+	comingSoon?: boolean;
+};
+
+const LOCALE_ICONS = {
+	id: 'ID',
+	en: 'EN',
+} as const;
+
 const {
 	title = 'MasHer — Software Craftsman',
 	description = 'Situs pribadi MasHer. Software craftsman yang senang meracik solusi digital aman, mudah diakses, dan menyenangkan untuk siapa saja.',
@@ -14,8 +26,10 @@ const {
 	locale = 'id',
 	languageLinks = [] as LanguageLink[],
 	switcherLabel = 'Change language',
-	skipLinkLabel = 'Skip to content',
 	themeToggleLabel = 'Toggle theme',
+	navLinks = [] as NavLink[],
+	navLabel = 'Primary navigation',
+	mobileMenuLabel = 'Toggle navigation',
 } = Astro.props;
 ---
 
@@ -35,6 +49,16 @@ const {
 			rel="stylesheet"
 		/>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-3J6PEFBG7N"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag('js', new Date());
+			gtag('config', 'G-3J6PEFBG7N');
+		</script>
 		<script is:inline>
 			(() => {
 				const root = document.documentElement;
@@ -50,36 +74,80 @@ const {
 		</script>
 	</head>
 	<body>
-		<a class="skip-link" href="#main">{skipLinkLabel}</a>
 		<div class="site-shell">
 			<header class="site-header">
 				<a class="brand" href={`/${locale}/`} aria-label={`${brand} homepage`}>
 					<span class="brand__mark">{brand}</span>
 					<span class="brand__tagline">{tagline}</span>
 				</a>
-				<div class="header-controls">
-					<nav class="language-switcher" aria-label={switcherLabel}>
-						{languageLinks.map((link) => (
+				{navLinks.length > 0 ? (
+					<nav class="primary-nav desktop-only" aria-label={navLabel}>
+						{navLinks.map((link) => (
 							<a
-								class={`language-switcher__link${link.active ? ' is-active' : ''}`}
+								class={`primary-nav__link${link.active ? ' is-active' : ''}${link.comingSoon ? ' is-soon' : ''}`}
 								href={link.href}
-								hreflang={link.lang}
-								data-lang-option={link.lang}
+								aria-disabled={link.comingSoon ? 'true' : undefined}
+								tabindex={link.comingSoon ? -1 : undefined}
 							>
 								{link.label}
 							</a>
 						))}
 					</nav>
+				) : null}
+				<div class="header-controls">
+					{navLinks.length > 0 ? (
+						<button class="menu-toggle mobile-only" type="button" data-menu-toggle aria-label={mobileMenuLabel} aria-expanded="false">
+							<i class="ri-menu-line menu-toggle__icon menu-toggle__icon--menu" aria-hidden="true"></i>
+							<i class="ri-close-line menu-toggle__icon menu-toggle__icon--close" aria-hidden="true"></i>
+						</button>
+					) : null}
 					<button class="theme-toggle" type="button" data-theme-toggle aria-label={themeToggleLabel}>
 						<i class="ri-sun-line theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true"></i>
 						<i class="ri-moon-line theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true"></i>
 					</button>
 				</div>
 			</header>
+			{navLinks.length > 0 ? (
+				<div id="mobile-nav" class="mobile-nav mobile-only" role="dialog" aria-modal="true" aria-label={navLabel}>
+					<button class="mobile-nav__close" type="button" data-menu-toggle aria-label={mobileMenuLabel}>
+						<i class="ri-close-line" aria-hidden="true"></i>
+					</button>
+					<div class="mobile-nav__content">
+						{navLinks.map((link) => {
+							if (link.comingSoon) {
+								return (
+									<span class="mobile-nav__link is-soon" role="text">{link.label}</span>
+								);
+							}
+							return (
+								<a class="mobile-nav__link" href={link.href}>{link.label}</a>
+							);
+						})}
+					</div>
+				</div>
+			) : null}
 			<main id="main">
 				<slot />
 			</main>
 			<footer>
+					{languageLinks.length > 0 ? (
+						<nav class="footer-language" aria-label={switcherLabel}>
+							{languageLinks.map((link) => (
+								<a
+									class={`language-pill${link.active ? ' is-active' : ''}`}
+									href={link.href}
+									hreflang={link.lang}
+									data-lang-option={link.lang}
+									aria-current={link.active ? 'true' : undefined}
+								>
+									<span class="language-pill__icon" aria-hidden="true">
+										{LOCALE_ICONS[link.lang as keyof typeof LOCALE_ICONS] ?? '🌐'}
+									</span>
+									<span class="sr-only">{link.label}</span>
+								</a>
+							))}
+						</nav>
+					) : null}
 				<p>© {new Date().getFullYear()} {brand}. All rights reserved.</p>
 			</footer>
 		</div>
@@ -130,6 +198,40 @@ const {
 					} catch {}
 				});
 			});
+
+			(() => {
+				const triggers = document.querySelectorAll('[data-menu-toggle]');
+				const mobileNav = document.querySelector('#mobile-nav');
+				if (!mobileNav || triggers.length === 0) return;
+
+				const toggleMenu = () => {
+					const isOpen = mobileNav.classList.toggle('is-open');
+					document.body.classList.toggle('is-menu-open', isOpen);
+					triggers.forEach((trigger) => {
+						if (!(trigger instanceof HTMLElement)) return;
+						trigger.classList.toggle('is-open', isOpen);
+						trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+					});
+				};
+
+				triggers.forEach((trigger) => {
+					trigger.addEventListener('click', toggleMenu);
+				});
+
+				mobileNav.querySelectorAll('a').forEach((anchor) => {
+					anchor.addEventListener('click', () => {
+						if (mobileNav.classList.contains('is-open')) {
+							toggleMenu();
+						}
+					});
+				});
+
+				mobileNav.addEventListener('click', (event) => {
+					if (event.target === mobileNav && mobileNav.classList.contains('is-open')) {
+						toggleMenu();
+					}
+				});
+			})();
 		</script>
 	</body>
 </html>
@@ -185,6 +287,18 @@ const {
 		box-sizing: border-box;
 	}
 
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
 	body {
 		margin: 0;
 		min-height: 100dvh;
@@ -204,20 +318,22 @@ const {
 		outline-offset: 4px;
 	}
 
-	.skip-link {
-		position: absolute;
-		top: -40px;
-		left: 16px;
-		padding: 8px 14px;
-		background: var(--accent);
-		color: var(--surface);
-		border-radius: 999px;
-		transition: top 0.2s ease;
-		font-weight: 600;
+	.desktop-only {
+		display: inline-flex;
 	}
 
-	.skip-link:focus {
-		top: 16px;
+	.mobile-only {
+		display: none;
+	}
+
+	@media (min-width: 641px) {
+		.menu-toggle {
+			display: none !important;
+		}
+	}
+
+	body.is-menu-open {
+		overflow: hidden;
 	}
 
 	.site-shell {
@@ -241,6 +357,8 @@ const {
 		background: var(--surface-elevated);
 		backdrop-filter: blur(24px);
 		box-shadow: var(--shadow-soft);
+		position: relative;
+		z-index: 1101;
 	}
 
 	.brand {
@@ -266,39 +384,154 @@ const {
 		display: flex;
 		align-items: center;
 		gap: 12px;
+		margin-left: auto;
 	}
 
-	.language-switcher {
+	.primary-nav {
 		display: inline-flex;
-		gap: 6px;
 		align-items: center;
-		padding: 4px;
+		gap: 10px;
+		padding: 4px 8px;
 		border-radius: 999px;
-		background: var(--surface-highlight);
+		background: transparent;
 	}
 
-	.language-switcher__link {
-		padding: 8px 14px;
+	.primary-nav__link {
+		padding: 9px 18px;
 		border-radius: 999px;
 		border: 1px solid transparent;
 		background: transparent;
 		color: var(--text-muted);
-		font-size: 0.8rem;
+		font-size: 0.82rem;
 		font-weight: 600;
 		text-transform: uppercase;
 		letter-spacing: 0.12em;
-		transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+		transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
 	}
 
-	.language-switcher__link:hover {
+	.primary-nav__link:hover {
 		transform: translateY(-1px);
 		border-color: var(--accent-soft);
+		background: var(--surface-highlight);
+		color: var(--text-main);
 	}
 
-	.language-switcher__link.is-active {
+	.primary-nav__link.is-active {
 		background: var(--accent);
-		color: #fff;
+		color: var(--surface);
+		border-color: transparent;
+	}
+
+	.primary-nav__link.is-soon {
+		opacity: 0.6;
+		cursor: default;
+		pointer-events: none;
+		border-style: dashed;
+	}
+
+	.menu-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		border: 1px solid var(--glass-stroke);
+		background: var(--surface-highlight);
+		color: var(--text-muted);
+		transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+	}
+
+	.menu-toggle:hover {
 		border-color: var(--accent);
+		color: var(--accent-strong);
+		transform: translateY(-1px);
+	}
+
+	.menu-toggle__icon {
+		font-size: 1.2rem;
+	}
+
+	.menu-toggle__icon--close {
+		display: none;
+	}
+
+	.menu-toggle.is-open .menu-toggle__icon--menu {
+		display: none;
+	}
+
+	.menu-toggle.is-open .menu-toggle__icon--close {
+		display: inline;
+	}
+
+	.mobile-nav {
+		display: none;
+		position: fixed;
+		inset: 0;
+		z-index: 1200;
+		background: color-mix(in srgb, var(--surface) 92%, #000 8%);
+		padding: 96px 24px 32px;
+	}
+
+	.mobile-nav.is-open {
+		display: flex;
+		flex-direction: column;
+		gap: 28px;
+	}
+
+	.mobile-nav__close {
+		position: absolute;
+		top: 24px;
+		right: 24px;
+		width: 44px;
+		height: 44px;
+		border-radius: 50%;
+		border: 1px solid var(--glass-stroke);
+		background: var(--surface-highlight);
+		color: var(--text-muted);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.2rem;
+		transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+	}
+
+	.mobile-nav__close:hover {
+		border-color: var(--accent);
+		color: var(--accent-strong);
+	}
+
+	.mobile-nav__content {
+		display: grid;
+		gap: 14px;
+	}
+
+	.mobile-nav__link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 14px 18px;
+		border-radius: 12px;
+		border: 1px solid transparent;
+		background: var(--surface-highlight);
+		color: var(--text-main);
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+	}
+
+	.mobile-nav__link:hover {
+		border-color: var(--accent);
+		background: var(--surface);
+		transform: translateY(-1px);
+	}
+
+	.mobile-nav__link.is-soon {
+		opacity: 0.6;
+		border-style: dashed;
+		cursor: default;
+		pointer-events: none;
 	}
 
 	.theme-toggle {
@@ -319,6 +552,52 @@ const {
 		color: var(--text-main);
 		border-color: var(--accent);
 		transform: translateY(-1px);
+	}
+
+	.footer-language {
+		display: flex;
+		justify-content: center;
+		gap: 10px;
+		margin: 0 0 18px;
+	}
+
+	.language-pill {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 42px;
+		height: 42px;
+		border-radius: 50%;
+		border: 1px solid var(--glass-stroke);
+		background: var(--surface-highlight);
+		color: var(--text-muted);
+		transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+
+	.language-pill:hover {
+		transform: translateY(-1px);
+		border-color: var(--accent);
+		color: var(--accent-strong);
+	}
+
+	.language-pill.is-active {
+		background: var(--accent);
+		border-color: transparent;
+		color: var(--surface);
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+	}
+
+	.language-pill__icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		font-size: 0.85rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		line-height: 1;
 	}
 
 	.theme-toggle__icon {
@@ -368,23 +647,36 @@ const {
 		}
 
 		.site-header {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: 16px;
-			padding: 16px;
+			flex-direction: row;
+			align-items: center;
+			padding: 14px 16px;
+			gap: 12px;
 		}
 
 		.brand {
 			align-items: flex-start;
-		}
-
-		.language-switcher {
-			flex-wrap: wrap;
+			flex: 1 1 auto;
 		}
 
 		.header-controls {
-			width: 100%;
-			justify-content: space-between;
+			margin-left: 0;
+			gap: 10px;
+		}
+
+		.desktop-only {
+			display: none !important;
+		}
+
+		.menu-toggle.mobile-only {
+			display: inline-flex;
+		}
+
+		.mobile-nav.mobile-only {
+			display: none;
+		}
+
+		.mobile-nav.is-open {
+			display: flex;
 		}
 	}
 
