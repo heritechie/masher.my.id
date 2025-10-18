@@ -12,22 +12,22 @@ const languageLinks = SUPPORTED_LOCALES.map((code) => ({
 	active: code === locale,
 }));
 
-const localePrefix = locale === defaultLocale ? '' : `/${locale}`;
+const journalLink = locale === defaultLocale ? '/jurnal/' : `/${locale}/journal/`;
 
 const navLinks = [
 	{
 		label: t.layout.learningJourneyLabel,
-		href: `${localePrefix}/learning-journey/`,
+		href: journalLink,
 		active: false,
 	},
 	{
 		label: t.layout.knowledgeBaseLabel,
-		href: `${localePrefix}/knowledge-base/`,
+		href: locale === defaultLocale ? '/knowledge-base/' : `/${locale}/knowledge-base/`,
 		active: false,
 	},
 	{
 		label: t.layout.webtoolsLabel,
-		href: `${localePrefix}/webtools/`,
+		href: locale === defaultLocale ? '/webtools/' : `/${locale}/webtools/`,
 		active: true,
 	},
 ];

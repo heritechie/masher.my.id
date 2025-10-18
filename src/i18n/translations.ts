@@ -300,6 +300,13 @@ export const translations: Record<Locale, Translation> = {
 					status: 'soon',
 				},
 				{
+					title: 'Kalender Nasional',
+					description:
+						'Kalender Indonesia interaktif dengan hari libur nasional dan cuti bersama terkini.',
+					icon: 'ri-calendar-event-line',
+					status: 'soon',
+				},
+				{
 					title: 'Pencarian Wilayah Indonesia',
 					description:
 						'Cari kode wilayah hingga level desa/kelurahan, ambil metadata BPS, dan salin hierarki administratif untuk kebutuhan formulir atau analisis GIS.',
@@ -1235,6 +1242,13 @@ export const translations: Record<Locale, Translation> = {
 					description:
 						'Model repayment schedules, compare flat versus effective interest, and visualise amortisation timelines in minutes.',
 					icon: 'ri-calculator-line',
+					status: 'soon',
+				},
+				{
+					title: 'Indonesian Calendar',
+					description:
+						'An interactive Indonesian calendar that highlights national holidays and shared leave days.',
+					icon: 'ri-calendar-event-line',
 					status: 'soon',
 				},
 				{

@@ -29,11 +29,12 @@ const languageLinks = SUPPORTED_LOCALES.map((code) => ({
 }));
 
 const pathPrefix = locale === defaultLocale ? '' : `/${locale}`;
+const journalLink = locale === defaultLocale ? '/jurnal/' : `/${locale}/journal/`;
 
 const navLinks = [
 	{
 		label: t.layout.learningJourneyLabel,
-		href: `${pathPrefix}/learning-journey/`,
+		href: journalLink,
 		active: false,
 	},
 	{

@@ -1,5 +1,5 @@
 ---
-import LearningJourneyPage from '../../components/LearningJourneyPage.astro';
+import JournalPage from '../../components/JournalPage.astro';
 import { defaultLocale, SUPPORTED_LOCALES, type Locale } from '../../i18n/translations';
 
 export function getStaticPaths() {
@@ -12,4 +12,4 @@ const requestedLang = Astro.params.lang;
 const locale: Locale = SUPPORTED_LOCALES.includes(requestedLang as Locale) ? (requestedLang as Locale) : defaultLocale;
 ---
 
-<LearningJourneyPage locale={locale} />
+<JournalPage locale={locale} />

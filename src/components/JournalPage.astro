@@ -5,29 +5,29 @@ import { SUPPORTED_LOCALES, translations, defaultLocale, type Locale } from '../
 const { locale } = Astro.props as { locale: Locale };
 const t = translations[locale];
 
+const journalPath = locale === defaultLocale ? '/jurnal/' : `/${locale}/journal/`;
+
 const languageLinks = SUPPORTED_LOCALES.map((code) => ({
 	lang: code,
 	label: t.layout.languageNames[code],
-	href: code === defaultLocale ? '/learning-journey/' : `/${code}/learning-journey/`,
+	href: code === defaultLocale ? '/jurnal/' : `/${code}/journal/`,
 	active: code === locale,
 }));
-
-const localePrefix = locale === defaultLocale ? '' : `/${locale}`;
 
 const navLinks = [
 	{
 		label: t.layout.learningJourneyLabel,
-		href: `${localePrefix}/learning-journey/`,
+		href: journalPath,
 		active: true,
 	},
 	{
 		label: t.layout.knowledgeBaseLabel,
-		href: `${localePrefix}/knowledge-base/`,
+		href: locale === defaultLocale ? '/knowledge-base/' : `/${locale}/knowledge-base/`,
 		active: false,
 	},
 	{
 		label: t.layout.webtoolsLabel,
-		href: `${localePrefix}/webtools/`,
+		href: locale === defaultLocale ? '/webtools/' : `/${locale}/webtools/`,
 		active: false,
 	},
 ];
