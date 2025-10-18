@@ -28,22 +28,22 @@ const languageLinks = SUPPORTED_LOCALES.map((code) => ({
 	active: code === locale,
 }));
 
-const pathPrefix = locale === defaultLocale ? '/' : `/${locale}/`;
+const pathPrefix = locale === defaultLocale ? '' : `/${locale}`;
 
 const navLinks = [
 	{
 		label: t.layout.learningJourneyLabel,
-		href: `${pathPrefix}learning-journey/`,
+		href: `${pathPrefix}/learning-journey/`,
 		active: false,
 	},
 	{
 		label: t.layout.knowledgeBaseLabel,
-		href: `${pathPrefix}knowledge-base/`,
+		href: `${pathPrefix}/knowledge-base/`,
 		active: false,
 	},
 	{
 		label: t.layout.webtoolsLabel,
-		href: `${pathPrefix}webtools/`,
+		href: `${pathPrefix}/webtools/`,
 		active: false,
 	},
 ];
@@ -191,19 +191,21 @@ const deliverables = t.deliverables.items;
 		<p>{t.contact.intro}</p>
 		<div class="contact__grid">
 			{contactChannels.map((channel) => (
-				<a
-					class="contact-card"
-					href={channel.href}
-					target={channel.href.startsWith('http') ? '_blank' : undefined}
-					rel="noopener"
-				>
-					<span class="icon contact-card__icon" aria-hidden="true"><i class={`ri ${channel.icon}`}></i></span>
-					<span class="label">{channel.label}</span>
-					<span class="value">{channel.value}</span>
-				</a>
-			))}
-		</div>
-	</section>
+		<a
+			class="contact-card"
+			href={channel.href}
+			target={channel.href.startsWith('http') ? '_blank' : undefined}
+			rel="noopener"
+		>
+			<span class="label">
+				<i class={`ri ${channel.icon}`} aria-hidden="true"></i>
+				<span>{channel.label}</span>
+			</span>
+			<span class="value">{channel.value}</span>
+		</a>
+		))}
+	</div>
+</section>
 </Layout>
 
 <style>
@@ -396,7 +398,7 @@ const deliverables = t.deliverables.items;
 
 	.contact-card {
 		display: grid;
-		gap: 8px;
+		gap: 6px;
 		padding: 20px;
 		border-radius: 20px;
 		border: 1px solid var(--glass-stroke);
@@ -413,7 +415,14 @@ const deliverables = t.deliverables.items;
 	}
 
 	.contact-card .label {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
 		font-weight: 600;
+	}
+
+	.contact-card .label i {
+		font-size: 1.2rem;
 	}
 
 	.contact-card .value {

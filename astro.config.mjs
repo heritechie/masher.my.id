@@ -3,7 +3,7 @@ import tailwind from '@tailwindcss/vite';
 import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
-	site: 'https://heritechie.my.id',
+	site: 'https://masher.my.id',
 	i18n: {
 		defaultLocale: 'id',
 		locales: ['id', 'en'],
