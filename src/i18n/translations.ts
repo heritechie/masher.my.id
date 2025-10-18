@@ -180,7 +180,7 @@ export const translations: Record<Locale, Translation> = {
 			categories: [
 				{
 					title: 'Frontend playground',
-					items: ['React', 'Angular', 'Tailwind CSS', 'Hono'],
+					items: ['React', 'Angular', 'Tailwind CSS', 'Hono', 'RxDB'],
 				},
 				{
 					title: 'Backend powerhouse',
@@ -1157,7 +1157,7 @@ export const translations: Record<Locale, Translation> = {
 			categories: [
 				{
 					title: 'Frontend playground',
-					items: ['React', 'Angular', 'Tailwind CSS', 'Hono'],
+					items: ['React', 'Angular', 'Tailwind CSS', 'Hono', 'RxDB'],
 				},
 				{
 					title: 'Backend powerhouse',
