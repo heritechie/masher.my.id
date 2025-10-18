@@ -1,15 +1,17 @@
-/// <reference types="@cloudflare/workers-types" />
+import type { APIRoute } from 'astro';
+
+export const prerender = false;
 
 const TARGET_ORIGIN = 'https://kalkulator-pinjaman.pages.dev/';
 
-export const onRequest: PagesFunction = async ({ request }) => {
+export const all: APIRoute = async ({ request, params }) => {
 	const incomingUrl = new URL(request.url);
-	const pathSuffix = incomingUrl.pathname.replace(/^\/webtools\/kalkulator-pinjaman\/?/, '');
-	const targetUrl = new URL(pathSuffix, TARGET_ORIGIN);
+	const capturedPath = params.path ?? '';
+	const targetPath = capturedPath ? `${capturedPath.replace(/^\//, '')}` : '';
+	const targetUrl = new URL(targetPath, TARGET_ORIGIN);
 	targetUrl.search = incomingUrl.search;
 
 	const headers = new Headers(request.headers);
-	// Remove hop-by-hop headers that should not be forwarded.
 	headers.delete('host');
 	headers.delete('cf-connecting-ip');
 	headers.delete('cf-ipcountry');
@@ -19,8 +21,7 @@ export const onRequest: PagesFunction = async ({ request }) => {
 
 	if (method !== 'GET' && method !== 'HEAD') {
 		const clone = request.clone();
-		const buffer = await clone.arrayBuffer();
-		body = buffer;
+		body = await clone.arrayBuffer();
 	}
 
 	const proxiedRequest = new Request(targetUrl.toString(), {
