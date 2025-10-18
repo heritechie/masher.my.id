@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import profileImage from '../assets/me_juni_ito_style.png';
+import profileImage from '../assets/me.png';
 import { SUPPORTED_LOCALES, translations, defaultLocale, type Locale } from '../i18n/translations';
 
 const iconMap = {
@@ -80,7 +80,6 @@ const deliverables = t.deliverables.items;
 	title={t.meta.title}
 	description={t.meta.description}
 	brand={t.layout.brand}
-	tagline={t.layout.tagline}
 	locale={locale}
 	languageLinks={languageLinks}
 	navLinks={navLinks}
@@ -111,13 +110,6 @@ const deliverables = t.deliverables.items;
 						</li>
 					))}
 				</ul>
-
-				<div class="hero__cta">
-					<a class="button" href="mailto:heritechie@gmail.com">{t.hero.ctaPrimary}</a>
-					<a class="button secondary" href="https://github.com/heritechie" target="_blank" rel="noopener">
-						{t.hero.ctaSecondary}
-					</a>
-				</div>
 			</div>
 		</div>
 
@@ -130,14 +122,6 @@ const deliverables = t.deliverables.items;
 				<span>{t.hero.badge}</span>
 			</div>
 		</aside>
-	</section>
-
-	<section class="experience" id="experience">
-		<h2 class="section-title">
-			<span class="icon" aria-hidden="true"><i class={`ri ${iconMap.experience}`}></i></span>
-			{t.experience.title}
-		</h2>
-		<p>{t.experience.body}</p>
 	</section>
 
 	<section class="deliverables" id="deliverables">
@@ -213,7 +197,6 @@ const deliverables = t.deliverables.items;
 	.hero {
 		display: grid;
 		gap: 36px;
-		padding: 48px 0 64px;
 		align-items: center;
 		grid-template-areas:
 			'portrait'

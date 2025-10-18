@@ -77,8 +77,10 @@ const {
 		<div class="site-shell">
 			<header class="site-header">
 				<a class="brand" href={'/'} aria-label={`${brand} homepage`}>
-					<span class="brand__mark">{brand}</span>
-					<span class="brand__tagline">{tagline}</span>
+					<picture>
+						<source srcset="/assets/logo_full.png" media="(min-width: 640px)" />
+						<img class="brand__logo" src="/assets/logo_only.png" alt={`${brand} logo`} />
+					</picture>
 				</a>
 				{navLinks.length > 0 ? (
 					<nav class="primary-nav desktop-only" aria-label={navLabel}>
@@ -363,21 +365,29 @@ const {
 
 	.brand {
 		display: inline-flex;
-		flex-direction: column;
-		gap: 4px;
-		font-weight: 700;
-		letter-spacing: 0.02em;
+		align-items: center;
+		transition: transform 0.2s ease;
 	}
 
-	.brand__mark {
-		font-size: 1.45rem;
+	.brand:hover {
+		transform: translateY(-1px);
 	}
 
-	.brand__tagline {
-		font-size: 0.9rem;
-		color: var(--text-muted);
-		text-transform: uppercase;
-		letter-spacing: 0.14em;
+	.brand picture,
+	.brand img {
+		display: inline-flex;
+		align-items: center;
+	}
+
+	.brand__logo {
+		height: 36px;
+		width: auto;
+	}
+
+	@media (min-width: 640px) {
+		.brand__logo {
+			height: 42px;
+		}
 	}
 
 	.header-controls {

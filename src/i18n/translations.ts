@@ -35,7 +35,6 @@ type Translation = {
 		intro: string;
 		portraitAlt: string;
 		highlights: string[];
-		ctaPrimary: string;
 		ctaSecondary: string;
 		badge: string;
 	};
@@ -157,17 +156,15 @@ export const translations: Record<Locale, Translation> = {
 		hero: {
 			status: 'Crafting human-centered, data-aware digital experiences',
 			name: 'Halo, saya Heriyanto',
-			subtitle: 'Teman-teman biasa memanggil saya MasHer—software craftsman yang senang menjembatani arsitektur, UX, dan user trust.',
-			intro: `Halo! Selama 12+ tahun terakhir, saya menerjemahkan insight lapangan menjadi produk digital yang relevan dan sustainable. Dalam 3+ tahun belakangan, perhatian saya banyak di literasi keamanan data, otomasi yang lebih bijak, dan mengejar visi besar: inklusivitas digital bagi gerakan sosial non-tech-savvy.`,
-			portraitAlt: 'Foto profil MasHer',
+			subtitle: 'Teman-teman biasa memanggil saya Masher — Saya seorang Software Engineer yang senang mengintegrasikan arsitektur, UX, dan user trust.',
+			intro: `Saya duah berkarir selama lebih dari 12 tahun di bidang Software Engineering, pekerjaan saya biasanya berkutan dengan pengembangan produk digital yang relevan dan sustainable. Dalam 3+ tahun belakangan, perhatian saya banyak di literasi keamanan data, otomatisasi, dan mengejar visi menghadirkan inklusifitas digital.`,
+			portraitAlt: 'Foto profil Masher',
 			highlights: [
-				`Berpengalaman ${TOTAL_YEARS_LABEL_ID} menjaga lifecycle produk—dari discovery, domain modelling, sampai observability.`,
+				`Berpengalaman ${TOTAL_YEARS_LABEL_ID} menjaga lifecycle produk—dari discovery, domain modeling, sampai observability.`,
 			'Flexible architecture based on business need.',
 			'Mengutamakan data-security awareness dan secure SDLC sejak ide awal hingga rilis.',
 			'Senang menerjemahkan konsep teknis menjadi solusi digital yang mudah diadopsi komunitas & organisasi sosial.',
 			],
-			ctaPrimary: 'Ngobrol yuk',
-			ctaSecondary: 'Cek GitHub',
 			badge: 'Tinggal di Jawa Barat, Indonesia · Mengutamakan kolaborasi remote—onsite bila diperlukan',
 		},
 		experience: {
@@ -175,7 +172,7 @@ export const translations: Record<Locale, Translation> = {
 		body: 'Dari portal internal sampai aplikasi publik, fokus saya merapikan domain kompleks menjadi workflow yang intuitif, secure, dan easy to maintain—selalu menjaga keseimbangan antara user experience dan tata kelola data yang bertanggung jawab.',
 		},
 		stack: {
-			title: 'Peralatan tempur favorit',
+			title: 'Stack favorit',
 			intro: 'Teknologi dan pola kerja yang saya pakai untuk menjaga kualitas, keamanan, dan keberlanjutan produk.',
 			categories: [
 				{
@@ -1124,7 +1121,6 @@ export const translations: Record<Locale, Translation> = {
 		},
 		layout: {
 			brand: 'MasHer',
-			tagline: 'Software Craftsman',
 			languageSwitcherLabel: 'Change language',
 			languageNames: {
 				id: 'Bahasa Indonesia',
@@ -1150,8 +1146,6 @@ export const translations: Record<Locale, Translation> = {
 			'Dive deep into secure SDLC, automated vulnerability testing, and AI-augmented engineering workflows.',
 			'Love demystifying complex systems so social-impact teams can adopt digital tools with confidence.',
 			],
-			ctaPrimary: "Let's chat",
-			ctaSecondary: 'Check GitHub',
 			badge: 'Based in Indonesia · Remote-first collaborator, onsite when it truly helps',
 		},
 		experience: {
