@@ -168,7 +168,7 @@ export const translations: Record<Locale, Translation> = {
 			],
 			ctaPrimary: 'Ngobrol yuk',
 			ctaSecondary: 'Cek GitHub',
-			badge: 'Tinggal di Jawa Barat, Indonesia · Senang kolaborasi remote atau onsite',
+			badge: 'Tinggal di Jawa Barat, Indonesia · Mengutamakan kolaborasi remote—onsite bila diperlukan',
 		},
 		experience: {
 			title: 'Reliable software',
@@ -1145,7 +1145,7 @@ export const translations: Record<Locale, Translation> = {
 			],
 			ctaPrimary: "Let's chat",
 			ctaSecondary: 'Check GitHub',
-			badge: 'Based in Indonesia · Excited to collaborate remote or onsite',
+			badge: 'Based in Indonesia · Remote-first collaborator, onsite when it truly helps',
 		},
 		experience: {
 			title: 'Reliable software',
