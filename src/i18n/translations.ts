@@ -97,6 +97,7 @@ type Translation = {
 		tagline: string;
 		intro: string;
 		note: string;
+		stackLabel: string;
 		launchLabel: string;
 		comingSoonLabel: string;
 		requestTitle: string;
@@ -107,6 +108,8 @@ type Translation = {
 			description: string;
 			icon: string;
 			status: 'available' | 'soon';
+			link?: string;
+			stack?: string[];
 		}>;
 	};
 	knowledgeBase: {
@@ -157,7 +160,7 @@ export const translations: Record<Locale, Translation> = {
 			status: 'Crafting human-centered, data-aware digital experiences',
 			name: 'Halo, saya Heriyanto',
 			subtitle: 'Teman-teman biasa memanggil saya Masher — Saya seorang Software Engineer yang senang mengintegrasikan arsitektur, UX, dan user trust.',
-			intro: `Saya duah berkarir selama lebih dari 12 tahun di bidang Software Engineering, pekerjaan saya biasanya berkutan dengan pengembangan produk digital yang relevan dan sustainable. Dalam 3+ tahun belakangan, perhatian saya banyak di literasi keamanan data, otomatisasi, dan mengejar visi menghadirkan inklusifitas digital.`,
+			intro: `Saya sudah berkarir selama lebih dari 12 tahun di bidang Software Engineering, pekerjaan saya biasanya berkaitan dengan pengembangan produk digital. Dalam 3 tahun belakangan, perhatian saya banyak di literasi keamanan data, otomatisasi, dan mengejar visi menghadirkan inklusivitas digital.`,
 			portraitAlt: 'Foto profil Masher',
 			highlights: [
 				`Berpengalaman ${TOTAL_YEARS_LABEL_ID} menjaga lifecycle produk—dari discovery, domain modeling, sampai observability.`,
@@ -282,6 +285,7 @@ export const translations: Record<Locale, Translation> = {
 			intro:
 				'Setiap utilitas dirancang ringan, tanpa perlu login ataupun backend. Cocok buat debugging cepat, cek asumsi data, atau bantu teman tim memahami konsep teknis.',
 			note: 'Semua alat bekerja 100% di browser, sehingga aman dipakai bahkan dalam mode offline atau jaringan terbatas.',
+			stackLabel: 'Stack teknologi',
 			launchLabel: 'Buka alat',
 			comingSoonLabel: 'Segera hadir',
 			requestTitle: 'Ingin alat khusus?',
@@ -294,7 +298,9 @@ export const translations: Record<Locale, Translation> = {
 					description:
 						'Simulasi cicilan, hitung bunga flat vs efektif, dan visualisasikan timeline pembayaran untuk berbagai skenario pinjaman.',
 					icon: 'ri-calculator-line',
-					status: 'soon',
+					status: 'available',
+					link: '/webtools/kalkulator-pinjaman',
+					stack: ['Angular', 'Tailwind CSS', 'Cloudflare Pages'],
 				},
 				{
 					title: 'Kalender Nasional',
@@ -1224,6 +1230,7 @@ export const translations: Record<Locale, Translation> = {
 			intro:
 				'Every tool runs client-side with no login, analytics, or background sync. Perfect for quick experiments, pair debugging, or sharing reproducible workflows with teammates.',
 			note: 'All utilities work 100% in-browser so you can stay productive even on limited or offline networks.',
+			stackLabel: 'Tech stack',
 			launchLabel: 'Launch tool',
 			comingSoonLabel: 'Coming soon',
 			requestTitle: 'Need a specific utility?',
@@ -1236,7 +1243,9 @@ export const translations: Record<Locale, Translation> = {
 					description:
 						'Model repayment schedules, compare flat versus effective interest, and visualise amortisation timelines in minutes.',
 					icon: 'ri-calculator-line',
-					status: 'soon',
+					status: 'available',
+					link: '/webtools/kalkulator-pinjaman',
+					stack: ['Angular', 'Tailwind CSS', 'Cloudflare Pages'],
 				},
 				{
 					title: 'Indonesian Calendar',
