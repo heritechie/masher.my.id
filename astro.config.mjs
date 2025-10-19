@@ -11,5 +11,11 @@ export default defineConfig({
 	vite: {
 		plugins: [tailwind()],
 	},
-	adapter: cloudflare(),
+	adapter: cloudflare({
+		routes: {
+			extend: {
+				include: [{ pattern: '/webtools/kalkulator-pinjaman*' }],
+			},
+		},
+	}),
 });
