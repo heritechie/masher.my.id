@@ -1,27 +1,24 @@
-import type { APIRoute } from 'astro';
-
-export const prerender = false;
+/// <reference types="@cloudflare/workers-types" />
 
 const TARGET_ORIGIN = 'https://kalkulator-pinjaman.pages.dev/';
 const BASE_PATH = '/webtools/kalkulator-pinjaman';
 
-export const all: APIRoute = async ({ request, params }) => {
+const normalizeSuffix = (pathname: string, paramsPath?: string | string[]): string => {
+	if (Array.isArray(paramsPath)) {
+		return paramsPath.join('/');
+	}
+	if (typeof paramsPath === 'string' && paramsPath.length > 0) {
+		return paramsPath;
+	}
+	if (pathname.startsWith(BASE_PATH)) {
+		return pathname.slice(BASE_PATH.length).replace(/^\/+/, '');
+	}
+	return '';
+};
+
+export const onRequest: PagesFunction = async ({ request, params }) => {
 	const incomingUrl = new URL(request.url);
-
-	const pathParam = params.path;
-	const pathSegments = Array.isArray(pathParam)
-		? pathParam
-		: typeof pathParam === 'string' && pathParam.length > 0
-			? [pathParam]
-			: [];
-
-	// Fallback to calculating suffix from pathname to ensure trailing slashes are preserved.
-	const suffixFromParams = pathSegments.join('/');
-	const suffixFromPathname = incomingUrl.pathname.startsWith(BASE_PATH)
-		? incomingUrl.pathname.slice(BASE_PATH.length).replace(/^\/+/, '')
-		: '';
-
-	const suffix = suffixFromParams || suffixFromPathname;
+	const suffix = normalizeSuffix(incomingUrl.pathname, params?.path);
 	const targetUrl = new URL(suffix, TARGET_ORIGIN);
 	targetUrl.search = incomingUrl.search;
 
@@ -46,7 +43,10 @@ export const all: APIRoute = async ({ request, params }) => {
 	});
 
 	const proxiedResponse = await fetch(proxiedRequest);
+
+	// Clone headers to detach from the original response
 	const responseHeaders = new Headers(proxiedResponse.headers);
+	responseHeaders.set('access-control-allow-origin', incomingUrl.origin);
 
 	return new Response(proxiedResponse.body, {
 		status: proxiedResponse.status,
