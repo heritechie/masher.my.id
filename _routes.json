@@ -1,5 +1,4 @@
 {
   "version": 1,
-  "include": ["/webtools/kalkulator-pinjaman/*"],
-  "exclude": ["/*"]
+  "include": ["/webtools/kalkulator-pinjaman/*"]
 }
