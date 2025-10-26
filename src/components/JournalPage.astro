@@ -1,39 +1,86 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { SUPPORTED_LOCALES, translations, defaultLocale, type Locale } from '../i18n/translations';
+import { summarizeFromMarkdown } from '../utils/summarize';
 
 const { locale } = Astro.props as { locale: Locale };
 const t = translations[locale];
 
-const journalPath = locale === defaultLocale ? '/jurnal/' : `/${locale}/journal/`;
+const journalPath = locale === defaultLocale ? '/journals/' : `/${locale}/journals/`;
 
 const languageLinks = SUPPORTED_LOCALES.map((code) => ({
-	lang: code,
-	label: t.layout.languageNames[code],
-	href: code === defaultLocale ? '/jurnal/' : `/${code}/journal/`,
-	active: code === locale,
+  lang: code,
+  label: t.layout.languageNames[code],
+  href: code === defaultLocale ? '/journals/' : `/${code}/journals/`,
+  active: code === locale,
 }));
 
 const navLinks = [
-	{
-		label: t.layout.learningJourneyLabel,
-		href: journalPath,
-		active: true,
-	},
-	{
-		label: t.layout.knowledgeBaseLabel,
-		href: locale === defaultLocale ? '/knowledge-base/' : `/${locale}/knowledge-base/`,
-		active: false,
-	},
-	{
-		label: t.layout.webtoolsLabel,
-		href: locale === defaultLocale ? '/webtools/' : `/${locale}/webtools/`,
-		active: false,
-	},
+  { label: t.layout.learningJourneyLabel, href: journalPath, active: true },
+  { label: t.layout.knowledgeBaseLabel, href: locale === defaultLocale ? '/knowledge-base/' : `/${locale}/knowledge-base/`, active: false },
+  { label: t.layout.webtoolsLabel, href: locale === defaultLocale ? '/webtools/' : `/${locale}/webtools/`, active: false },
 ];
 
-const entries = t.learningJourney.articles;
-const homeHref = locale === defaultLocale ? '/' : `/${locale}/`;
+// ------------------------------
+// 🔧 1️⃣ Load semua post MDX
+// ------------------------------
+const modules = import.meta.glob('/src/contents/journals/*.{md,mdx}', { eager: true });
+let posts = Object.entries(modules).map(([file, mod]) => {
+  const m = mod as any;
+  return {
+    file,
+    frontmatter: m.frontmatter ?? {},
+    Content: m.default ?? null,
+    raw: (m as any).raw ?? (m as any).rawContent ?? '',
+  };
+});
+
+// ------------------------------
+// 🔧 2️⃣ Load semua gambar dari src/assets/images/
+// ------------------------------
+const imageModules = import.meta.glob('/src/assets/images/journals/*.{avif,png,jpg,jpeg,webp}', { eager: true });
+const imageMap: Record<string, string> = Object.entries(imageModules).reduce((acc, [path, mod]) => {
+  const filename = path.split('/').pop();
+  const src = (mod as any).default?.src ?? (mod as any).src ?? (mod as any).default ?? '';
+  if (filename && src) acc[filename] = src;
+  return acc;
+}, {});
+
+// ------------------------------
+// 🔧 3️⃣ Buat post list dengan thumbnail otomatis
+// ------------------------------
+const BASE_POST_PATH = '/journals';
+
+posts = posts.map((p) => {
+  const slug = p.file.split('/').pop().replace(/\.mdx?$/, '');
+  const fm = p.frontmatter ?? {};
+  const raw = p.raw ?? '';
+
+  const excerpt = fm.excerpt ?? summarizeFromMarkdown(raw, 160);
+
+  // ✅ ambil thumb berdasarkan coverFileName
+  let thumbSrc = '';
+  const coverFileName = fm.coverFileName;
+  if (coverFileName && imageMap[coverFileName]) {
+    thumbSrc = imageMap[coverFileName];
+  }
+
+  return {
+    slug,
+    href: `${BASE_POST_PATH}/${slug}`,
+    title: fm.title ?? 'Untitled',
+    date: fm.date ?? null,
+    status: fm.status ?? 'published',
+    excerpt,
+    thumbSrc,
+  };
+});
+
+// hide drafts on production
+if (import.meta.env.PROD) posts = posts.filter((p) => p.status !== 'draft');
+
+// sort newest first
+posts.sort((a, b) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime());
 ---
 
 <Layout
@@ -48,66 +95,68 @@ const homeHref = locale === defaultLocale ? '/' : `/${locale}/`;
 	switcherLabel={t.layout.languageSwitcherLabel}
 	themeToggleLabel={t.layout.themeToggleLabel}
 >
-	<section class="journey-hero">
-		<header class="journey-hero__content">
-			<span class="journey-hero__eyebrow">
-				<i class="ri-compass-discover-line" aria-hidden="true"></i>
-				{t.learningJourney.title}
-			</span>
-			<h1>{t.learningJourney.title}</h1>
-			<p class="journey-hero__intro">{t.learningJourney.intro}</p>
-		</header>
-		<a class="journey-hero__back" href={homeHref}>
-			<i class="ri-arrow-go-back-line" aria-hidden="true"></i>
-			{t.learningJourney.backLabel}
-		</a>
-	</section>
-
 	<section class="journey-timeline" aria-label={t.learningJourney.timelineLabel}>
-		<div class="journey-timeline__header">
-			<h2>
-				<i class="ri-road-map-line" aria-hidden="true"></i>
-				{t.learningJourney.timelineLabel}
-			</h2>
-			<p>{t.learningJourney.meta.description}</p>
-		</div>
-
-		<div class="journey-grid">
-			{entries.map((entry) => {
-				const hasLink = Boolean(entry.link);
-				const href = entry.link ?? undefined;
-				const isExternal = hasLink && typeof href === 'string' && href.startsWith('http');
-				return (
-					<article class="journey-card">
-						<span class="journey-card__year">{entry.year}</span>
-						<h3>{entry.title}</h3>
-						<p class="journey-card__summary">{entry.summary}</p>
-						<ul class="journey-card__topics">
-							{entry.topics.map((topic) => (
-								<li>{topic}</li>
-							))}
-						</ul>
-						{hasLink && href ? (
-							<a
-								class="journey-card__cta"
-								href={href}
-								target={isExternal ? '_blank' : undefined}
-								rel={isExternal ? 'noopener noreferrer' : undefined}
-							>
-								<span>{t.learningJourney.readLabel}</span>
-								<i class="ri-arrow-right-up-line" aria-hidden="true"></i>
-							</a>
-						) : (
-							<span class="journey-card__placeholder">
-								<i class="ri-hourglass-line" aria-hidden="true"></i>
-								{t.learningJourney.upcomingLabel}
-							</span>
-						)}
-					</article>
-				);
-			})}
-		</div>
-	</section>
+	<div class="journey-timeline__header">
+	  <h2>
+		<i class="ri-road-map-line" aria-hidden="true"></i>
+		{t.learningJourney.timelineLabel}
+	  </h2>
+	  <p>{t.learningJourney.meta.description}</p>
+	</div>
+  
+	<div class="journey-grid">
+		{posts.map((entry) => {
+		  const isoDate = entry.date ? new Date(entry.date).toISOString() : null;
+		  const humanDate = entry.date
+			? new Date(entry.date).toLocaleDateString('id-ID', {
+				day: 'numeric',
+				month: 'long',
+				year: 'numeric'
+				})
+			: 'no-date';
+		  const summaryId = `summary-${entry.slug}`;
+	  
+		  return (
+			<article class="journey-card" key={entry.slug}>
+			  <a
+				class="journey-card__link"
+				href={entry.href}
+				aria-label={`Baca: ${entry.title}`}
+				aria-describedby={entry.excerpt ? summaryId : undefined}
+			  >
+				{entry.thumbSrc ? (
+				  <div class="journey-card__media">
+					<img
+					  class="journey-card__thumb"
+					  src={entry.thumbSrc}
+					  alt={`Thumbnail — ${entry.title}`}
+					  loading="lazy"
+					  decoding="async"
+					  width="320"
+					  height="180"
+					/>
+				  </div>
+				) : (
+				  <div class="journey-card__media journey-card__media--placeholder" aria-hidden="true" />
+				)}
+	  
+				<div class="journey-card__body">
+				  <span class="journey-card__year">
+					{entry.date ? <time datetime={isoDate}>{humanDate}</time> : 'no-date'}
+				  </span>
+				  <h3>{entry.title}</h3>
+				  {entry.excerpt ? (
+					<p id={summaryId} class="journey-card__summary">{entry.excerpt}</p>
+				  ) : null}
+				</div>
+			  </a>
+			</article>
+		  );
+		})}
+	  </div>
+	  
+  	</section>
+  
 </Layout>
 
 <style>
@@ -206,57 +255,88 @@ const homeHref = locale === defaultLocale ? '/' : `/${locale}/`;
 		gap: 18px;
 	}
 
+	/* Card container */
 	.journey-card {
-		display: grid;
-		gap: 12px;
-		padding: 24px;
-		border-radius: 22px;
-		background: var(--surface-card);
-		border: 1px solid var(--glass-stroke);
-		box-shadow: var(--shadow-soft);
+	padding: 18px;
+	border-radius: 14px;
+	background: var(--surface-card);
+	border: 1px solid var(--glass-stroke);
+	box-shadow: var(--shadow-soft);
 	}
 
+	/* Make the whole card clickable and layout as row */
+	.journey-card__link {
+	display: flex;
+	gap: 16px;
+	align-items: flex-start;
+	text-decoration: none;
+	color: inherit;
+	}
+
+	/* Media column (left) */
+	.journey-card__media {
+	flex: 0 0 160px; /* fixed thumbnail column width */
+	width: 160px;
+	}
+
+	.journey-card__media--placeholder {
+	width: 160px;
+	height: 120px;
+	border-radius: 10px;
+	background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+	border: 1px dashed var(--glass-stroke);
+	}
+
+	/* thumb image */
+	.journey-card__thumb {
+	width: 100%;
+	height: 100%;
+	/* aspect-ratio: 16/9; */
+	object-fit: cover;
+	border-radius: 10px;
+	display: block;
+	box-shadow: var(--shadow-soft);
+	border: 1px solid var(--glass-stroke);
+	}
+
+	/* Body column */
+	.journey-card__body {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	}
+
+	/* Year/title/summary */
 	.journey-card__year {
-		font-weight: 600;
-		font-size: 0.94rem;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--text-muted);
+	font-weight: 600;
+	font-size: 0.9rem;
+	color: var(--text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
 	}
 
 	.journey-card__summary {
-		margin: 0;
-		color: var(--text-muted);
+	margin: 0;
+	color: var(--text-muted);
 	}
 
-	.journey-card__topics {
-		margin: 0;
-		padding-left: 1.1rem;
-		display: grid;
-		gap: 6px;
-		color: var(--text-muted);
+	/* Responsive: stack on small screens */
+	@media (max-width: 640px) {
+	.journey-card__link {
+		flex-direction: column;
+		gap: 12px;
+	}
+	.journey-card__media,
+	.journey-card__media--placeholder {
+		width: 100%;
+		height: auto;
+	}
+	.journey-card__thumb {
+		aspect-ratio: auto;
+		height: 160px;
+		width: 100%;
+	}
 	}
 
-	.journey-card__cta,
-	.journey-card__placeholder {
-		display: inline-flex;
-		align-items: center;
-		gap: 8px;
-		font-weight: 600;
-		color: var(--accent);
-	}
-
-	.journey-card__placeholder {
-		color: var(--text-muted);
-	}
-
-	@media (max-width: 768px) {
-		.journey-hero {
-			padding: 28px;
-		}
-
-		.journey-card {
-			padding: 20px;
-		}
-	}
 </style>

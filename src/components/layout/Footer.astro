@@ -1,0 +1,42 @@
+---
+type LanguageLink = {
+	lang: string;
+	label: string;
+	href: string;
+	active?: boolean;
+};
+
+const LOCALE_ICONS = {
+	id: 'ID',
+	en: 'EN',
+} as const;
+
+
+const {
+    brand = 'Masher',
+    switcherLabel = 'Change language',
+	languageLinks = [] as LanguageLink[]
+} = Astro.props;
+---
+
+<footer>
+    {languageLinks.length > 0 ? (
+        <nav class="footer-language" aria-label={switcherLabel}>
+            {languageLinks.map((link: LanguageLink) => (
+                <a
+                    class={`language-pill${link.active ? ' is-active' : ''}`}
+                    href={link.href}
+                    hreflang={link.lang}
+                    data-lang-option={link.lang}
+                    aria-current={link.active ? 'true' : undefined}
+                >
+                    <span class="language-pill__icon" aria-hidden="true">
+                        {LOCALE_ICONS[link.lang as keyof typeof LOCALE_ICONS] ?? '🌐'}
+                    </span>
+                    <span class="sr-only">{link.label}</span>
+                </a>
+            ))}
+        </nav>
+    ) : null}
+<p>© {new Date().getFullYear()} {brand}. All rights reserved.</p>
+</footer>

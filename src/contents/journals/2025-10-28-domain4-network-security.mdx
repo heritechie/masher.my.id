@@ -1,0 +1,125 @@
+---
+title: "Cyber Security — Domain 4: Network Security"
+date: 2025-10-28
+tags: ["isc2", "cybersecurity", "learning", "personal-journal"]
+status: "draft"
+excerpt: "Refleksi tentang bagaimana jaringan menjadi tulang punggung dunia digital — dan bagaimana keamanan jaringan adalah garis depan pertahanan siber modern."
+coverFileName: "masher-network-security-thumb.avif"
+---
+
+import cover from '../../assets/images/journals/masher-network-security-header.avif';
+
+
+<img src={cover.src} alt="Ilustrasi keamanan jaringan — router, firewall, kabel data, dan visualisasi serangan siber di jaringan digital" />
+
+
+> Hari keempat belajar cybersecurity lewat **ISC² Certified in Cybersecurity (CC)**.  
+> Topiknya: *Network Security* — bagian yang membawa saya lebih dalam ke dunia di balik koneksi yang selama ini saya anggap 'biasa saja'.
+
+---
+
+## 🌐 Ketika Dunia Terhubung
+
+Di era di mana hampir semua hal terhubung ke internet, jaringan adalah nadi dari sistem informasi modern.  
+Tapi di sisi lain, jaringan juga menjadi **pintu masuk utama bagi ancaman**.  
+
+Domain ini membuat saya sadar bahwa keamanan jaringan bukan cuma urusan tim infrastruktur —  
+tapi tanggung jawab semua orang yang berinteraksi dengan data.
+
+> “Network is the battlefield.” — kalimat ini terasa makin nyata setelah memahami bagaimana serangan bisa terjadi di lapisan paling dasar dari komunikasi digital.
+
+---
+
+## 🎯 Fokus Hari Ini
+
+- Memahami **konsep dasar keamanan jaringan** dan komponennya.  
+- Mengenali **protokol, port, dan layanan umum** beserta versi amannya (HTTPS, SFTP, SSH, dsb).  
+- Mempelajari **jenis serangan jaringan** seperti DDoS, sniffing, spoofing, dan man-in-the-middle.  
+- Mengetahui **strategi pertahanan jaringan** termasuk firewall, IDS/IPS, dan segmentasi.  
+- Mengenali terminologi umum di **data center** dan **cloud infrastructure**.
+
+---
+
+## 🧠 Catatan Belajar
+
+### 1. Anatomy of a Network
+Jaringan terdiri dari banyak komponen yang bekerja bersama:
+- **Router dan Switch** — tulang punggung yang mengatur lalu lintas data.  
+- **Firewall** — penjaga gerbang yang menyaring apa yang boleh masuk dan keluar.  
+- **IDS/IPS (Intrusion Detection/Prevention System)** — sistem yang mendeteksi pola serangan dan bisa langsung menolak traffic berbahaya.  
+- **VPN** — jalur aman di tengah jaringan publik.
+
+Saya jadi teringat bagaimana dulu sering men-deploy server tanpa memikirkan segmentasi —  
+semua instance bisa saling ping. Sekarang saya sadar, itu celah keamanan besar.
+
+---
+
+### 2. Common Protocols & Secure Counterparts
+Belajar membedakan antara protokol biasa dan versi amannya membuka wawasan baru:
+
+| Fungsi | Protokol Umum | Versi Aman |
+|--------|----------------|-------------|
+| Web | HTTP (80) | HTTPS (443) |
+| File Transfer | FTP (21) | SFTP / FTPS |
+| Remote Login | Telnet (23) | SSH (22) |
+| Email | SMTP/POP3/IMAP | SMTPS/POP3S/IMAPS |
+
+> Semua protokol lama yang tidak dienkripsi ibarat “berteriak di tempat umum” — semua orang bisa mendengar.
+
+---
+
+### 3. Network Threats and Attacks
+Beberapa ancaman klasik yang wajib diwaspadai:
+- **Sniffing:** menyadap lalu lintas data.  
+- **Spoofing:** menyamar sebagai entitas lain.  
+- **DDoS:** membanjiri server hingga tidak bisa diakses.  
+- **MITM (Man-in-the-Middle):** menyisipkan diri di antara dua pihak komunikasi.  
+- **Port Scanning:** mencari celah dari layanan yang terbuka.
+
+Yang menarik, banyak serangan ini **tidak terlihat di level aplikasi** —  
+artinya, pengembang yang fokus di code bisa saja tidak menyadari adanya ancaman di lapisan bawah.
+
+---
+
+### 4. Secure Infrastructure & Network Design
+Membangun jaringan aman itu soal **lapisan pertahanan** (defense in depth):
+
+- Gunakan **firewall berlapis** antara internal dan publik.  
+- Terapkan **VLAN** untuk segmentasi berdasarkan fungsi (misalnya admin, user, dan guest).  
+- Monitor log lalu lintas dengan sistem SIEM (Security Information and Event Management).  
+- Gunakan **zero trust model**: tidak ada entitas yang otomatis dipercaya, bahkan dari dalam.
+
+> 🔒 Prinsip “trust but verify” berubah jadi “verify everything.”  
+> Di jaringan modern, setiap paket data adalah tamu yang harus diperiksa.
+
+---
+
+### 5. Cloud and Data Center Concepts
+Domain ini juga menyinggung dunia cloud — sesuatu yang sudah sangat dekat dengan pekerjaan sehari-hari.  
+Istilah seperti **IaaS, PaaS, SaaS**, hingga konsep **shared responsibility model** kembali muncul di sini.
+
+Saya makin paham kenapa cloud security jadi bidang tersendiri:  
+karena tanggung jawab antara penyedia dan pengguna tidak selalu jelas batasnya.
+
+---
+
+## 💭 Refleksi Pribadi
+
+Sebagai seseorang yang sering fokus di level aplikasi, domain ini mengingatkan saya akan pentingnya **melihat keseluruhan peta serangan.**  
+Bug di backend bisa diperbaiki lewat patch, tapi celah di jaringan bisa menembus semua sistem sekaligus.
+
+> ⚡ “A single open port can be an open door.”  
+> Kadang serangan terbesar datang dari konfigurasi paling sepele.
+
+Setelah belajar domain ini, saya mulai ingin memperkuat pengetahuan praktis di sisi network — terutama di firewall rules, VPN setup, dan IDS open-source seperti Suricata.
+
+---
+
+## 🔍 Catatan Kecil
+
+- Gunakan prinsip **Least Access** juga di jaringan, bukan hanya user.  
+- **IPv6 security** masih sering diabaikan, padahal protokol ini makin luas digunakan.  
+- Logging yang baik bukan hanya untuk audit, tapi juga *early detection*.  
+- **Cloud network security** membutuhkan pemahaman baru tentang perimeter — tidak lagi hanya "dinding", tapi juga "kebijakan".
+
+---

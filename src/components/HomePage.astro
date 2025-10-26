@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import profileImage from '../assets/me.png';
+import profileImage from '../assets/masher-me.avif';
 import { SUPPORTED_LOCALES, translations, defaultLocale, type Locale } from '../i18n/translations';
 
 const iconMap = {
@@ -29,7 +29,7 @@ const languageLinks = SUPPORTED_LOCALES.map((code) => ({
 }));
 
 const pathPrefix = locale === defaultLocale ? '' : `/${locale}`;
-const journalLink = locale === defaultLocale ? '/jurnal/' : `/${locale}/journal/`;
+const journalLink = locale === defaultLocale ? '/journals/' : `/${locale}/journals/`;
 
 const navLinks = [
 	{
@@ -88,6 +88,7 @@ const deliverables = t.deliverables.items;
 	switcherLabel={t.layout.languageSwitcherLabel}
 	themeToggleLabel={t.layout.themeToggleLabel}
 >
+<div class="main">
 	<section class="hero">
 		<div class="hero__content">
 			<div class="hero__meta">
@@ -117,9 +118,24 @@ const deliverables = t.deliverables.items;
 			<div class="hero__portrait-frame">
 				<img src={profileImage.src} alt={t.hero.portraitAlt} loading="lazy" width="340" height="420" />
 			</div>
-			<div class="hero__badge">
-				<span class="icon" aria-hidden="true"><i class={`ri ${iconMap.badge}`}></i></span>
-				<span>{t.hero.badge}</span>
+			<div class="contact" id="contact">
+				<p>{t.contact.intro}</p>
+				<div class="contact__grid">
+					{contactChannels.map((channel) => (
+						<a
+							class="contact-card"
+							href={channel.href}
+							target={channel.href.startsWith('http') ? '_blank' : undefined}
+							rel="noopener"
+						>
+							<span class="label">
+								<i class={`ri ${channel.icon}`} aria-hidden="true"></i>
+								<span>{channel.label}</span>
+							</span>
+							<span class="value">{channel.value}</span>
+						</a>
+						))}
+				</div>
 			</div>
 		</aside>
 	</section>
@@ -168,32 +184,17 @@ const deliverables = t.deliverables.items;
 		</div>
 	</section>
 
-	<section class="contact" id="contact">
-		<h2 class="section-title">
-			<span class="icon" aria-hidden="true"><i class={`ri ${iconMap.contact}`}></i></span>
-			{t.contact.title}
-		</h2>
-		<p>{t.contact.intro}</p>
-		<div class="contact__grid">
-			{contactChannels.map((channel) => (
-		<a
-			class="contact-card"
-			href={channel.href}
-			target={channel.href.startsWith('http') ? '_blank' : undefined}
-			rel="noopener"
-		>
-			<span class="label">
-				<i class={`ri ${channel.icon}`} aria-hidden="true"></i>
-				<span>{channel.label}</span>
-			</span>
-			<span class="value">{channel.value}</span>
-		</a>
-		))}
-	</div>
-</section>
+	
+</div>
 </Layout>
 
 <style>
+	.main {
+		flex: 1 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 88px;
+	}
 	.hero {
 		display: grid;
 		gap: 36px;
@@ -283,7 +284,7 @@ const deliverables = t.deliverables.items;
 	}
 
 	.hero__portrait-frame {
-		width: min(340px, 100%);
+		width: min(200px, 100%);
 		display: grid;
 		place-items: center;
 	}

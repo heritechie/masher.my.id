@@ -1,0 +1,116 @@
+---
+title: "Cyber Security — Domain 3: Access Control Concepts"
+date: 2025-10-27
+tags: ["isc2", "cybersecurity", "learning", "personal-journal"]
+status: "published"
+excerpt: "Refleksi tentang bagaimana mengontrol siapa yang bisa mengakses apa — memahami peran access control dalam menjaga keamanan dan keadilan digital."
+coverFileName: "masher-access-control-thumb.avif"
+---
+
+import cover from '../../assets/images/journals/masher-access-control-header.avif';
+
+
+<img src={cover.src} alt="Ilustrasi konsep access control — keamanan akses fisik dan logis, otorisasi, autentikasi, dan privilege user" />
+
+
+> Hari ketiga belajar cybersecurity lewat **ISC² Certified in Cybersecurity (CC)**.  
+> Topiknya: *Access Control Concepts* — bagian yang mengajarkan bahwa keamanan bukan hanya tentang perlindungan, tapi juga tentang *izin* dan *batasan.*
+
+---
+
+## 🔐 Siapa, Apa, dan Kenapa
+
+Kalau dua domain sebelumnya membahas **prinsip keamanan dan cara bertahan dari insiden**, Domain 3 lebih fokus pada **mengatur siapa yang boleh melakukan apa**.  
+Konsepnya sederhana, tapi dampaknya besar: *akses yang salah sama bahayanya dengan tidak ada keamanan sama sekali.*
+
+Access control adalah tentang tiga pertanyaan utama:
+1. **Siapa** yang mencoba mengakses sistem (identitas)?  
+2. **Apa** yang ingin mereka akses (resource)?  
+3. **Kenapa** mereka berhak atau tidak berhak (otorisasi dan kebijakan)?
+
+---
+
+## 🎯 Fokus Hari Ini
+
+- Membedakan antara **physical** dan **logical access controls**.  
+- Memahami strategi seperti **RBAC, DAC, dan MAC** dalam manajemen hak akses.  
+- Mengenali peran **authentication, authorization, dan accounting (AAA)** dalam sistem keamanan.  
+- Mengetahui pentingnya **user privilege administration** dan prinsip **least privilege**.
+
+---
+
+## 🧠 Catatan Belajar
+
+### 1. Physical vs Logical Access
+Dua jenis kontrol yang sering disepelekan tapi sama pentingnya:
+- **Physical Control:** Kunci, kartu akses, CCTV, penjaga keamanan.  
+  → Melindungi aset fisik dan infrastruktur.  
+- **Logical Control:** Password, biometrik, enkripsi, multi-factor authentication.  
+  → Melindungi data dan sistem digital.
+
+> Tanpa physical control, logical control bisa dengan mudah ditembus secara fisik. Dan tanpa logical control, data bisa bocor meski server dijaga ketat.
+
+---
+
+### 2. Access Control Models
+Ada tiga model utama yang sering digunakan organisasi:
+- **DAC (Discretionary Access Control):**  
+  Pemilik data menentukan siapa yang boleh mengaksesnya.  
+  Cocok untuk sistem fleksibel, tapi berisiko kalau tidak diawasi.
+- **MAC (Mandatory Access Control):**  
+  Akses ditentukan oleh kebijakan sistem berdasarkan *security labels* dan *clearance levels*.  
+  Cocok untuk militer atau lingkungan dengan tingkat kerahasiaan tinggi.
+- **RBAC (Role-Based Access Control):**  
+  Hak akses berdasarkan peran pengguna.  
+  Paling umum di perusahaan modern karena efisien dan mudah diatur.
+
+Saya pribadi paling sering pakai pendekatan RBAC — misalnya di proyek, hanya *DevOps* yang boleh melakukan deploy ke production, bukan semua developer.
+
+---
+
+### 3. Security Control Protocols
+Access control bukan hanya “boleh” atau “tidak boleh.”  
+Ia bergantung pada **protokol** dan **mekanisme verifikasi**:
+- **Authentication:** Membuktikan identitas (username + password, OTP, biometrik).  
+- **Authorization:** Menentukan hak akses (apa yang boleh dilakukan).  
+- **Accounting/Audit:** Mencatat semua aktivitas untuk pelacakan insiden.
+
+> 🔎 Prinsipnya mirip seperti rapat penting: siapa yang boleh masuk, siapa yang boleh bicara, dan siapa yang mencatat hasilnya.
+
+---
+
+### 4. User Privilege Administration
+Inilah bagian paling “manusiawi” dari domain ini.  
+Manajemen hak akses tidak hanya soal teknologi, tapi juga *kepercayaan* dan *tanggung jawab.*
+
+Beberapa praktik penting:
+- **Least Privilege:** Hanya beri akses yang benar-benar diperlukan.  
+- **Separation of Duties:** Pisahkan peran penting agar tidak disalahgunakan.  
+- **Periodic Review:** Audit akses pengguna secara berkala.  
+- **Onboarding & Offboarding Control:** Pastikan akun baru atau resign ditangani dengan aman.
+
+Saya langsung teringat kebiasaan buruk di beberapa proyek lama — akun mantan karyawan masih aktif di server.  
+Kesalahan kecil, tapi risikonya besar.
+
+---
+
+## 💭 Refleksi Pribadi
+
+Domain ini terasa sangat dekat dengan dunia kerja sehari-hari.  
+Sebagai engineer, saya sering berhadapan dengan token, SSH key, dan credential management. Tapi baru kali ini saya melihatnya dari sisi **governance dan kontrol organisasi**.
+
+> 🧩 Access control itu bukan sekadar menjaga rahasia, tapi juga memastikan keadilan digital — agar setiap orang hanya memegang kunci yang memang miliknya.
+
+Saya juga mulai menyadari bahwa **kebocoran data seringkali bukan karena serangan canggih**,  
+tapi karena kesalahan pengelolaan hak akses: token bocor, password disimpan di repo, atau akses admin diberikan terlalu luas.
+
+---
+
+## 🔍 Catatan Kecil
+
+- Kontrol akses yang baik harus **dokumentatif dan terukur**, bukan hanya bergantung pada kepercayaan.  
+- **Single Sign-On (SSO)** bisa jadi solusi praktis, tapi tetap perlu pengawasan audit.  
+- Access control bukan hal statis — ia berkembang seiring peran dan risiko berubah.  
+- Kombinasi physical dan logical control adalah *layered defense* yang sesungguhnya.
+
+---

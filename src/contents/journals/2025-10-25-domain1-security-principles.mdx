@@ -1,0 +1,92 @@
+---
+title: "Cyber Security — Domain 1: Security Principles"
+date: 2025-10-25
+tags: ["isc2", "cybersecurity", "learning", "personal-journal"]
+status: "published"
+excerpt: "Refleksi hari pertama belajar cybersecurity lewat ISC² Certified in Cybersecurity (CC)"
+coverFileName: "masher-security-principles-thumb.avif"
+---
+
+import cover from '../../assets/images/journals/masher-security-principles-header.avif';
+
+
+<img src={cover.src} alt="Ilustrasi cybersecurity — prinsip keamanan digital dan CIA Triad" />
+
+
+> Hari pertama belajar cybersecurity lewat **ISC² Certified in Cybersecurity (CC)**.  
+> Topiknya: *Security Principles* — hal paling dasar tapi justru paling membuka mata.
+
+---
+
+## 🌤️ Memulai dari Prinsip Dasar
+
+Hari ini saya resmi mulai perjalanan belajar cybersecurity lewat kursus ISC².  
+Materi pertama, Domain 1 — *Security Principles*.  
+
+Awalnya saya kira topik ini bakal ringan, cuma pengantar. Tapi ternyata malah bikin saya berhenti sejenak dan mikir:  
+selama ini saya terlalu fokus di sisi teknis — *hashing password*, *input validation*, *firewall rules* —  
+padahal inti dari keamanan itu lebih dalam: **melindungi kepercayaan (trust)**.
+
+---
+
+## 🎯 Fokus Hari Ini
+
+- Memahami konsep dasar **CIA Triad** — Confidentiality, Integrity, Availability.  
+- Mengenali jenis-jenis **security controls** dan prinsip seperti *Least Privilege* serta *Defense in Depth*.  
+- Mulai memahami hubungan antara **governance, kebijakan, dan etika profesional** dalam konteks kerja sehari-hari.
+
+---
+
+## 🧠 Catatan Belajar
+
+### 1. CIA Triad  
+Tiga huruf yang sederhana tapi sebenarnya pondasi segalanya: Confidentiality, Integrity, Availability.  
+Yang paling “kena” buat saya itu *Integrity*. Saya jadi keingat beberapa kasus bug yang dulu saya anggap biasa —  
+misalnya data transaksi di log dan database yang nggak sinkron. Dulu saya pikir itu cuma error logic,  
+padahal itu bentuk pelanggaran *integrity*.  
+
+Kadang kita nggak sadar kalau bug kecil bisa berdampak ke kepercayaan pengguna.
+
+---
+
+### 2. Security Controls  
+Saya baru tahu ternyata kontrol keamanan itu ada dua cara pandang:  
+berdasarkan **fungsi** (preventive, detective, corrective),  
+dan **jenis** (administrative, technical, physical).  
+
+Selama ini saya cuma mikir “logging” itu urusan DevOps,  
+tapi ternyata log adalah *detective control* — cara sistem “mengingat” dan mendeteksi anomali.
+
+---
+
+### 3. Prinsip-prinsip Keamanan  
+Ada beberapa prinsip yang langsung saya refleksikan ke pekerjaan sendiri:
+- **Least Privilege & Need-to-Know** — saya masih sering pakai token admin tunggal di pipeline CI/CD. Ini harus diubah.  
+- **Defense in Depth** — prinsip ini mirip banget sama konsep *redundancy* di engineering. Layer ganda yang saling jaga.  
+- **Separation of Duties** — jangan biarkan satu akun punya semua akses build dan deploy. Simpel, tapi krusial.
+
+---
+
+## 💭 Refleksi Pribadi
+
+Setelah menyelam sedikit di domain ini, saya mulai sadar bahwa keamanan itu bukan fitur tambahan, tapi cara berpikir.  
+Dulu mindset saya: *asal jalan, berarti aman.* Sekarang berubah jadi: *asal aman, baru bisa dipercaya.*
+
+> ⚡️ Performa tanpa keamanan cuma mempercepat kerusakan.
+
+Saya juga makin paham kenapa **etika profesional** itu masuk ke dalam kurikulum keamanan.  
+Kode Etik ISC² menekankan tanggung jawab kita untuk melindungi masyarakat dan infrastruktur.  
+Sebagai developer, saya jarang mikir sejauh itu. Tapi kalau dipikir, setiap API yang saya tulis,  
+setiap data yang saya simpan — semuanya berhubungan langsung dengan orang lain.
+
+---
+
+## 🔍 Catatan Kecil
+
+- Konsep **Due Care** dan **Due Diligence** menarik.  
+  Rasanya mirip dengan “review code sebelum merge” dan “monitoring setelah deploy”.  
+  Tanggung jawab yang nggak berhenti di satu titik, tapi terus berlanjut.  
+- Di awal, *governance* terasa birokratis, tapi ternyata tujuannya bukan sekadar aturan —  
+  melainkan **membangun konsistensi dan kepercayaan** di dalam tim maupun sistem.
+
+---

@@ -6,7 +6,6 @@ export type Locale = (typeof SUPPORTED_LOCALES)[number];
 export const defaultLocale: Locale = 'id';
 
 const TOTAL_YEARS_LABEL_ID = `${TOTAL_EXPERIENCE_YEARS}+ tahun`;
-const FINTECH_YEARS_LABEL_ID = `${FINTECH_EXPERIENCE_YEARS}+ tahun`;
 const TOTAL_YEARS_LABEL_EN = `${TOTAL_EXPERIENCE_YEARS}+ years`;
 const FINTECH_YEARS_LABEL_EN = `${FINTECH_EXPERIENCE_YEARS}+ years`;
 
@@ -17,7 +16,6 @@ type Translation = {
 	};
 	layout: {
 		brand: string;
-		tagline: string;
 		languageSwitcherLabel: string;
 		languageNames: Record<Locale, string>;
 		skipLinkLabel: string;
@@ -35,7 +33,6 @@ type Translation = {
 		intro: string;
 		portraitAlt: string;
 		highlights: string[];
-		ctaSecondary: string;
 		badge: string;
 	};
 	experience: {
@@ -142,7 +139,6 @@ export const translations: Record<Locale, Translation> = {
     },
     layout: {
       brand: "Masher",
-      tagline: "Software Craftsman",
       languageSwitcherLabel: "Ganti bahasa",
       languageNames: {
         id: "Bahasa Indonesia",
@@ -151,7 +147,7 @@ export const translations: Record<Locale, Translation> = {
       skipLinkLabel: "Loncat ke konten utama",
       themeToggleLabel: "Ubah tema",
       primaryNavLabel: "Navigasi utama",
-      learningJourneyLabel: "Jurnal",
+      learningJourneyLabel: "Journals",
       webtoolsLabel: "Webtools",
       knowledgeBaseLabel: "Knowledge Base",
       mobileMenuLabel: "Buka navigasi",
@@ -242,7 +238,7 @@ export const translations: Record<Locale, Translation> = {
     contact: {
       title: "Yuk diskusi atau kolaborasi",
       intro:
-        "Ingin ngobrol soal software craftsmanship, keamanan data, atau menggerakkan social impact lewat teknologi? Tinggal pilih kanal favoritmu.",
+        "Mau ngobrol, diskusi teknis, atau kolaborasi? Saya aktif di beberapa kanal ini 👇",
       channels: {
         email: "Email",
         github: "GitHub",
@@ -253,14 +249,14 @@ export const translations: Record<Locale, Translation> = {
       "FYI: sebagian besar konten dan copy di halaman ini dibantu AI. Kalau ada frasa yang terdengar robotik, anggap saja itu easter egg. 😄",
     learningJourney: {
       meta: {
-        title: "Jurnal — MasHer",
+        title: "Jurnal — Masher",
         description:
           "Jurnal pribadi yang berisi catatan belajar dan eksperimen saya dalam mempelajari bidang baru.",
       },
       title: "Jurnal",
       intro:
         "Catatan harian untuk merekam perjalanan belajar, bahan bacaan, dan eksperimen teknis yang sedang saya tekuni.",
-      timelineLabel: "Jurnal belajar beberapa bulan terakhir",
+      timelineLabel: "Jurnal belajar",
       readLabel: "Baca catatan",
       upcomingLabel: "Segera hadir",
       backLabel: "Kembali ke beranda",
@@ -2462,7 +2458,7 @@ export const translations: Record<Locale, Translation> = {
       title: "Journal",
       intro:
         "A living notebook where I capture study routines, reading takeaways, and technical experiments I am currently exploring.",
-      timelineLabel: "Learning journal highlights from recent months",
+      timelineLabel: "Learning journal",
       readLabel: "Read note",
       upcomingLabel: "Coming soon",
       backLabel: "Back to home",

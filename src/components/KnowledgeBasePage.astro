@@ -50,24 +50,6 @@ const homeHref = locale === defaultLocale ? '/' : `/${locale}/`;
 	switcherLabel={t.layout.languageSwitcherLabel}
 	themeToggleLabel={t.layout.themeToggleLabel}
 >
-	<section class="kb-hero">
-		<header class="kb-hero__content">
-			<span class="kb-hero__eyebrow">
-				<i class="ri-book-2-line" aria-hidden="true"></i>
-				{t.knowledgeBase.title}
-			</span>
-			<h1>{t.knowledgeBase.title}</h1>
-			<p class="kb-hero__intro">{t.knowledgeBase.intro}</p>
-			<p class="kb-hero__note">
-				<i class="ri-compass-discover-line" aria-hidden="true"></i>
-				<span>{t.knowledgeBase.categoryIntro}</span>
-			</p>
-		</header>
-		<a class="kb-hero__back" href={homeHref}>
-			<i class="ri-arrow-go-back-line" aria-hidden="true"></i>
-			{t.knowledgeBase.backLabel}
-		</a>
-	</section>
 
 	<section class="kb-glossary">
 		{glossary.map((section) => (

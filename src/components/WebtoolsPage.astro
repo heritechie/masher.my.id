@@ -47,20 +47,6 @@ const tools = t.webtools.tools;
 	switcherLabel={t.layout.languageSwitcherLabel}
 	themeToggleLabel={t.layout.themeToggleLabel}
 >
-	<section class="webtools-hero">
-		<header class="webtools-hero__content">
-			<span class="webtools-hero__eyebrow">
-				<i class="ri-rocket-2-line" aria-hidden="true"></i>
-				{t.webtools.title}
-			</span>
-			<p class="webtools-hero__intro">{t.webtools.intro}</p>
-			<p class="webtools-hero__note">
-				<i class="ri-shield-check-line" aria-hidden="true"></i>
-				<span>{t.webtools.note}</span>
-			</p>
-		</header>
-	</section>
-
 	<section class="webtools-grid" aria-label={t.webtools.title}>
 		{tools.map((tool) => {
 			const isSoon = tool.status === 'soon';
@@ -99,17 +85,6 @@ const tools = t.webtools.tools;
 				</article>
 			);
 		})}
-	</section>
-
-	<section class="webtools-request">
-		<div class="webtools-request__content">
-			<h2>{t.webtools.requestTitle}</h2>
-			<p>{t.webtools.requestBody}</p>
-		</div>
-		<a class="webtools-request__cta" href="mailto:heritechie@gmail.com?subject=Webtools%20idea">
-			<i class="ri-mail-send-line" aria-hidden="true"></i>
-			<span>{t.webtools.requestAction}</span>
-		</a>
 	</section>
 </Layout>
 

@@ -1,0 +1,45 @@
+---
+// src/pages/journals/[slug].astro
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../layouts/Layout.astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const modules = import.meta.glob('/src/contents/journals/*.{md,mdx}') as Record<
+    string,
+    () => Promise<{ default: any; frontmatter?: Record<string, any> }>
+  >;
+  const posts = await Promise.all(
+    Object.entries(modules).map(async ([file, loader]) => {
+      const mod = await loader();
+      return {
+        file,
+        frontmatter: (mod.frontmatter ?? {}) as Record<string, any>,
+        Content: mod.default ?? null,
+      };
+    })
+  );
+
+  const filtered = import.meta.env.PROD
+    ? posts.filter(p => (p.frontmatter?.status ?? 'published') !== 'draft')
+    : posts;
+
+  return filtered.map(post => {
+    const slug = post.file.split('/').pop()?.replace(/\.mdx?$/, '') ?? '';
+    return { params: { slug }, props: { post } };
+  });
+};
+
+
+const { post } = Astro.props as any;
+
+if (!post) throw new Error('Post not found');
+
+const title = post.frontmatter?.title ?? 'Untitled';
+const date = post.frontmatter?.date ?? null;
+const status = post.frontmatter?.status ?? 'published';
+const excerpt = post.frontmatter?.excerpt ?? '';
+const Content = post.Content ?? null;
+---
+<Layout title={title} date={date} status={status} excerpt={excerpt}>
+  {Content ? <Content /> : <p><em>Content not available.</em></p>}
+</Layout>

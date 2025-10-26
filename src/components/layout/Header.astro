@@ -1,0 +1,73 @@
+---
+import logoFull from '../../assets/masher-logo-full.avif';
+import logoOnly from '../../assets/masher-logo-only.avif';
+
+type NavLink = {
+	label: string;
+	href: string;
+	active?: boolean;
+	comingSoon?: boolean;
+};
+
+const {
+	brand = 'MasHer',
+	themeToggleLabel = 'Toggle theme',
+	navLinks = [] as NavLink[],
+	navLabel = 'Primary navigation',
+	mobileMenuLabel = 'Toggle navigation',
+} = Astro.props;
+---
+
+<header class="site-header">
+    <a class="brand" href={'/'} aria-label={`${brand} homepage`}>
+        <picture>
+            <source srcset={logoFull.src} media="(min-width: 640px)" />
+            <img class="brand__logo" src={logoOnly.src} alt={`${brand} logo`} />
+        </picture>
+    </a>
+    {navLinks.length > 0 ? (
+        <nav class="primary-nav desktop-only" aria-label={navLabel}>
+            {navLinks.map((link: { active: any; comingSoon: any; href: string | URL | null | undefined; label: unknown; }) => (
+                <a
+                    class={`primary-nav__link${link.active ? ' is-active' : ''}${link.comingSoon ? ' is-soon' : ''}`}
+                    href={link.href}
+                    aria-disabled={link.comingSoon ? 'true' : undefined}
+                    tabindex={link.comingSoon ? -1 : undefined}
+                >
+                    {link.label}
+                </a>
+            ))}
+        </nav>
+    ) : null}
+    <div class="header-controls">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label={themeToggleLabel}>
+            <i class="ri-sun-line theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true"></i>
+            <i class="ri-moon-line theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true"></i>
+        </button>
+        {navLinks.length > 0 ? (
+            <button class="menu-toggle mobile-only" type="button" data-menu-toggle aria-label={mobileMenuLabel} aria-expanded="false">
+                <i class="ri-menu-line menu-toggle__icon menu-toggle__icon--menu" aria-hidden="true"></i>
+                <i class="ri-close-line menu-toggle__icon menu-toggle__icon--close" aria-hidden="true"></i>
+            </button>
+        ) : null}
+    </div>
+</header>
+{navLinks.length > 0 ? (
+    <div id="mobile-nav" class="mobile-nav mobile-only" role="dialog" aria-modal="true" aria-label={navLabel}>
+        <button class="mobile-nav__close" type="button" data-menu-toggle aria-label={mobileMenuLabel}>
+            <i class="ri-close-line" aria-hidden="true"></i>
+        </button>
+        <div class="mobile-nav__content">
+            {navLinks.map((link: { comingSoon: any; label: unknown; href: string | URL | null | undefined; }) => {
+                if (link.comingSoon) {
+                    return (
+                        <span class="mobile-nav__link is-soon">{link.label}</span>
+                    );
+                }
+                return (
+                    <a class="mobile-nav__link" href={link.href}>{link.label}</a>
+                );
+            })}
+        </div>
+    </div>
+) : null}

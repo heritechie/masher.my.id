@@ -1,0 +1,154 @@
+---
+title: "Cyber Security — Domain 5: Security Operations"
+date: 2025-10-29
+tags: ["isc2", "cybersecurity", "learning", "personal-journal"]
+status: "draft"
+excerpt: "Refleksi tentang bagaimana keamanan dijalankan sehari-hari — dari data handling, logging, hingga kebiasaan manusia di balik sistem."
+coverFileName: "masher-security-operations-header.avif"
+---
+
+import cover from '../../assets/images/journals/masher-security-operations-header.avif';
+
+
+<img src={cover.src} alt="Ilustrasi aktivitas keamanan siber sehari-hari — monitoring, encryption, dan data handling" />
+
+
+> Hari kelima belajar cybersecurity lewat **ISC² Certified in Cybersecurity (CC)**.  
+> Topiknya: *Security Operations* — bagian yang membumikan semua teori sebelumnya ke dalam praktik harian di dunia nyata.
+
+---
+
+## ⚙️ Dari Teori ke Operasi
+
+Kalau domain-domain sebelumnya mengajarkan tentang **prinsip, kontrol, dan jaringan**,  
+maka domain ini membawa semuanya ke level implementasi harian — bagaimana keamanan benar-benar *dijalankan* setiap hari.
+
+Security operations adalah tentang **menjaga agar sistem tetap aman secara terus-menerus**,  
+melalui kombinasi antara teknologi, proses, dan perilaku manusia.
+
+> “Keamanan bukan proyek sekali jadi — tapi rutinitas yang harus hidup setiap hari.”
+
+---
+
+## 🎯 Fokus Hari Ini
+
+- Memahami **konsep operasi keamanan** dan bagaimana kontrol diterapkan sehari-hari.  
+- Mempelajari **data handling best practices**.  
+- Mengenali pentingnya **logging, monitoring, dan alerting** dalam deteksi dini insiden.  
+- Memahami konsep dasar **enkripsi dan hashing** dalam menjaga kerahasiaan data.  
+- Mengetahui **konfigurasi manajemen dan kebijakan keamanan organisasi**.  
+- Menyadari peran **security awareness** dalam budaya kerja aman.
+
+---
+
+## 🧠 Catatan Belajar
+
+### 1. Security Operations in Practice
+Security operations mencakup semua kegiatan untuk menjaga agar keamanan tetap berfungsi:
+- **Monitoring** — memantau sistem, log, dan lalu lintas jaringan.  
+- **Incident Handling** — menanggapi ancaman atau pelanggaran dengan cepat.  
+- **Patch Management** — memperbarui sistem untuk menutup celah baru.  
+- **Change Management** — memastikan setiap perubahan konfigurasi dikontrol dan terdokumentasi.
+
+Menariknya, semakin dalam saya belajar, semakin jelas bahwa keamanan bukan hanya *tools*, tapi *discipline*.  
+Tim SOC (Security Operations Center) bekerja tanpa henti — 24/7 — memastikan tidak ada anomali yang terlewat.
+
+---
+
+### 2. Data Handling & Governance
+Data adalah inti dari semua sistem. Tapi **cara memperlakukan data** menentukan seberapa amannya organisasi.
+
+Beberapa praktik terbaik:
+- **Classify data** berdasarkan sensitivitas (public, internal, confidential, secret).  
+- **Encrypt** data saat transit maupun saat disimpan.  
+- **Limit access** hanya untuk yang benar-benar membutuhkan (*least privilege*).  
+- **Destroy data** dengan aman setelah tidak dibutuhkan.
+
+Saya jadi ingat proyek lama yang tidak punya kebijakan retensi log.  
+Setelah belajar ini, saya sadar bahwa “menyimpan segalanya” bukan berarti aman — malah berisiko.
+
+---
+
+### 3. Logging and Monitoring
+Tanpa log, insiden tidak akan pernah terdeteksi.  
+Logging adalah “ingatan” sistem, dan monitoring adalah “kesadarannya.”
+
+Contoh log penting:
+- System event logs  
+- Application logs  
+- Network traffic logs  
+- Authentication and access logs  
+
+Log kemudian dikumpulkan dalam sistem seperti **SIEM (Security Information and Event Management)** untuk dianalisis secara otomatis.
+
+> 🔎 “You can’t protect what you don’t see.”  
+> Logging bukan hanya bukti pasca insiden, tapi alat untuk memahami apa yang sedang terjadi sekarang.
+
+---
+
+### 4. Hashing & Encryption
+Dua konsep ini mirip tapi punya fungsi berbeda:
+- **Hashing:** untuk *integrity* — memastikan data tidak berubah (misalnya password hash atau checksum file).  
+- **Encryption:** untuk *confidentiality* — menjaga agar data tidak bisa dibaca tanpa kunci.
+
+Contohnya:
+- AES untuk enkripsi simetris.  
+- RSA untuk enkripsi asimetris.  
+- SHA-256 untuk hashing.
+
+Menariknya, hashing tidak bisa dibalik — sementara enkripsi bisa didekripsi dengan kunci yang tepat.
+
+---
+
+### 5. Configuration & Change Management
+Keamanan juga bergantung pada **konsistensi konfigurasi**.  
+Satu perubahan kecil tanpa pengawasan bisa membuka celah besar.
+
+Beberapa praktik penting:
+- Gunakan **version control** untuk konfigurasi (misalnya GitOps).  
+- Review setiap perubahan secara peer-reviewed.  
+- Gunakan **baseline configuration** agar semua sistem seragam.  
+- Dokumentasikan semua perubahan dalam log audit.
+
+---
+
+### 6. Security Awareness Training
+Teknologi sehebat apa pun tidak akan cukup kalau manusianya lengah.  
+Makanya, pelatihan kesadaran keamanan itu vital.
+
+Topik yang sering diajarkan:
+- Mengenali *phishing* dan *social engineering*.  
+- Praktik password yang kuat.  
+- Kebijakan penggunaan perangkat pribadi (BYOD).  
+- Melaporkan insiden tanpa takut disalahkan.
+
+Saya suka poin terakhir ini: **budaya aman dimulai dari keberanian untuk melapor.**
+
+---
+
+## 💭 Refleksi Pribadi
+
+Domain ini terasa seperti “napas” dari seluruh pelajaran cybersecurity.  
+Ia bukan soal teori baru, tapi tentang **menjalankan teori lama dengan disiplin tinggi**.
+
+> ⚡ “Security isn’t a destination — it’s a habit.”
+
+Saya jadi terinspirasi untuk membuat *checklist harian keamanan pribadi*:  
+- Ganti password penting setiap kuartal.  
+- Cek izin aplikasi dan extension di browser.  
+- Pastikan backup terenkripsi dan diuji.  
+- Aktifkan MFA di semua akun kritikal.
+
+Keamanan ternyata bukan hal besar — tapi serangkaian tindakan kecil yang dilakukan dengan konsisten.
+
+---
+
+## 🔍 Catatan Kecil
+
+- **Hashing ≠ Encryption** — hashing tidak bisa dibalik.  
+- **Log retention policy** penting agar tidak overload tapi tetap berguna.  
+- **Change management** bukan birokrasi, tapi kontrol kualitas keamanan.  
+- **Security culture** dimulai dari edukasi, bukan ketakutan.  
+- Keamanan manusia (human security) sama pentingnya dengan keamanan sistem.
+
+---
